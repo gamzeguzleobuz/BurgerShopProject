@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Burger Restaurant</title>
+    <link rel="shortcut icon" href="~/images/burger.png" type="image/x-icon">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;600&amp;display=swap"
+          rel="stylesheet" />
+    <!-- aos plugin -->
+    <link href="~/css/aos.css" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="~/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body>
+    <!-- start header -->
+    <header>
+        <div class="container">
+            <div class="box">
+                <i id="menu-btn" class="fas fa-bars icons"></i>
+                <i id="search-btn" class="fas fa-search icons"></i>
+                <nav>
+                    <a href="#home">home</a>
+                    <a href="#menu">menu</a>
+                    <a href="#about">about</a>
+                    <span class="space"></span>
+                    <a href="#reviews">reviews</a>
+                    <a href="#contact">contact</a>
+                    <a href="#blogs">blogs</a>
+                </nav>
+                <a href="#" class="logo"><img src="~/images/logo.png" alt="" /></a>
+                <i class="fas fa-shopping-cart icons"></i>
+            </div>
+        </div>
+
+        <form class="" id="search-form">
+            <input type="text"
+                   name=""
+                   placeholder="search here..."
+                   id="search-box" />
+            <label for="search-box" class="fas fa-search icons"></label>
+        </form>
+    </header>
+    <section>
+        @RenderBody()
+    </section>
+    <!-- start footer -->
+    <footer class="mt-5 py-2">
+        <div class="container">
+            <div class="links">
+                    <a class="custom-btn" href="#home">home</a>
+                    <a class="custom-btn" href="#menu">menu</a>
+                    <a class="custom-btn" href="#about">about</a>
+                    <a class="custom-btn" href="#reviews">reviews</a>
+                    <a class="custom-btn" href="#contact">contact</a>
+                    <a class="custom-btn" href="#blogs">blogs</a>
+            </div>
+            <p class="copyright">Made With <i class="fas fa-heart"></i> | All Rights Reserved!</p>
+        </div>
+    </footer>
+    <script src="~/js/aos.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>
