@@ -1,68 +1,15 @@
-﻿using BurgerShopProject.Enums;
-
-namespace BurgerShopProject.Entities
+﻿namespace BurgerShopProject.Entities
 {
-    public class Order : Base
+    public class Order
     {
-        private readonly List<Burger> _burgers;
-        private readonly List<SideProduct> _sideProducts;
-        private readonly List<Beverages> _beverages;
-        private readonly List<Sauce> _sauces;
-        private readonly AppUser _appUser;
+        public int Id { get; set; }
+        public List<Menu> Menus { get; set; } = new();
+        public AppUser Customer { get; set; } = null!;
 
+        public List<Extras> Extras { get; set; } = new();
 
-        public Order()
-        {
-            
-        }
+        public int OrderPiece { get; set; }
 
-        public Order(List<Burger> burgers, List<SideProduct> sideProducts, List<Beverages> beverages, List<Sauce> sauces, AppUser appUser)
-        {
-            _burgers = burgers;
-            _sideProducts = sideProducts;
-            _beverages = beverages;
-            _sauces = sauces;
-            _appUser = appUser;
-        }
-
-        private decimal _totalPrice;
-
-        public decimal TotalPrice
-        {
-            get { return _totalPrice; }
-            set { _totalPrice = Calculate();}
-        }
-
-
-
-        public decimal Calculate()
-        {
-            decimal totalPrice = 0;
-
-            foreach (var item in _burgers)
-            {
-                totalPrice += item.Price * item.Quantity;
-            }
-
-            foreach (var item in _sideProducts)
-            {
-                totalPrice += item.Price * item.Quantity;
-            }
-
-            foreach (var item in _beverages)
-            {
-                totalPrice += item.Price * item.Quantity;
-            }
-
-            foreach (var item in _sauces)
-            {
-                totalPrice += item.Price * item.Quantity;
-            }
-
-
-            return totalPrice;
-
-        }
-
+        public decimal OrderPrice { get; set; }
     }
 }

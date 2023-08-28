@@ -1,21 +1,16 @@
 ﻿namespace BurgerShopProject.Entities
 {
-    public class Menu : Base
+    public class Menu
     {
-        private readonly List<Burger> _burgers;
-        private readonly List<SideProduct> _sideProducts;
-        private readonly List<Beverages> _beverages;
-        private readonly List<Sauce> _sauces;
-        public Menu(List<Burger> burgers, List<SideProduct> sideProducts, List<Beverages> beverages, List<Sauce> sauces)
-        {
-            _burgers = burgers;
-            _sideProducts = sideProducts;
-            _beverages = beverages;
-            _sauces = sauces;
-        }
+        public int Id { get; set; }
+        public string MenuName { get; set; } = null!;
+        public string MenuPrice { get; set; } = null!;
 
+        public Size MenuSize { get; set; }
 
+        public string? MenuImageName { get; set; }
 
+        public List<Order> Orders { get; set; } = new();
 
 
     }

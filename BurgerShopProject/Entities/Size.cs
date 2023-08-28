@@ -1,10 +1,9 @@
-﻿namespace BurgerShopProject.Enums
+﻿namespace BurgerShopProject.Entities
 {
     public enum Size
     {
         Small,
         Medium,
-        Big,
-        King
+        Big
     }
 }
