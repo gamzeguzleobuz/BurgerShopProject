@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<BurgerShopProject.Entities.Order>
 
+@*@{ 
+    Layout = null;
+}*@
 @{
     ViewData["Title"] = "Index";
 }
@@ -13,7 +16,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OrderPiece)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OrderPrice)

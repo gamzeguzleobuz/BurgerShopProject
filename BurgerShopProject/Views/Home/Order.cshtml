@@ -1,55 +1,53 @@
-﻿@model BurgerShopProject.Entities.Order
+﻿@model IEnumerable<BurgerShopProject.Entities.Menu>
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h4>Menu</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+<h1>Index</h1>
 
-                @*Burada kalindi*@
-
-                <label asp-for="Menus" class="control-label"></label>
-                <select asp-for="Menus" asp-items="@(new SelectList(@Model.Menus,"Id","MenuName"))">
-                    @*<option value="">Select a menu</option>*@
-                </select>
-                <span asp-validation-for="Menus" class="text-danger"></span>
-
-                @*<select asp-for="Menus" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select>*@
-
-                @*<label asp-for="Menus" class="control-label"></label>
-        <input asp-for="Menus" class="form-control" />
-        <span asp-validation-for="Menus" class="text-danger"></span>*@
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MenuName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MenuPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MenuSize)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MenuImageName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        @*<tbody>*@
+    </table>
+    <div>
+        @foreach (var item in Model)
+        {
+            @*<tr>*@
+            <div class="form-control">
+                <label asp-for="@item.Id" class="control-label"></label>
+                <input asp-for="@item.Id" class="form-control" readonly />
+                <span asp-validation-for="@item.Id" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="OrderPiece" class="control-label"></label>
-                <input asp-for="@Model.OrderPiece" class="form-control" />
-                <span asp-validation-for="@Model.OrderPiece" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MenuSize" class="control-label"></label>
+            @*<td>*@
+            <div class="form-control">
 
+                <a asp-controller="Home" asp-action="Order"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
 
-                <select asp-for="MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select>
-                <select asp-for="@BurgerShopProject.Entities.Size." class="form-control"></select>
-                <span asp-validation-for="Model.MenuSize" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MenuImageName" class="control-label"></label>
-                <input asp-for="MenuImageName" class="form-control" />
-                <span asp-validation-for="MenuImageName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>*@
-        </form>
+            @*</td>*@
+            @*</tr>*@
+        }
+        @*</tbody>*@
     </div>
-</div>
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
