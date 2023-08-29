@@ -1,0 +1,60 @@
+﻿@model BurgerShopProject.Entities.Order
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Menu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+
+                @*Burada kalindi*@
+
+                <label asp-for="Menus" class="control-label"></label>
+                <select asp-for="Menus" asp-items="@(new SelectList(@Model.Menus,"Id","MenuName"))">
+                    @*<option value="">Select a menu</option>*@
+                </select>
+                <span asp-validation-for="Menus" class="text-danger"></span>
+
+                @*<select asp-for="Menus" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select>*@
+
+                @*<label asp-for="Menus" class="control-label"></label>
+        <input asp-for="Menus" class="form-control" />
+        <span asp-validation-for="Menus" class="text-danger"></span>*@
+            </div>
+            @*<div class="form-group">
+                <label asp-for="OrderPiece" class="control-label"></label>
+                <input asp-for="@Model.OrderPiece" class="form-control" />
+                <span asp-validation-for="@Model.OrderPiece" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MenuSize" class="control-label"></label>
+
+
+                <select asp-for="MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select>
+                <select asp-for="@BurgerShopProject.Entities.Size." class="form-control"></select>
+                <span asp-validation-for="Model.MenuSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MenuImageName" class="control-label"></label>
+                <input asp-for="MenuImageName" class="form-control" />
+                <span asp-validation-for="MenuImageName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>*@
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,6 +1,7 @@
 ﻿using BurgerShopProject.Entities;
 using BurgerShopProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace BurgerShopProject.Controllers
@@ -13,7 +14,7 @@ namespace BurgerShopProject.Controllers
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
         {
             _logger = logger;
-            _db = db;   
+            _db = db;
         }
 
         public IActionResult Index()
@@ -28,7 +29,29 @@ namespace BurgerShopProject.Controllers
 
         public IActionResult Order()
         {
-            return View();
+            var menus = _db.Menus.ToList(); // Menüleri veritabanından al
+            var order = new Order
+            {
+                OrderPrice = 0,
+                OrderPiece = 0, 
+                Id = _db.Orders.Count() + 1,
+                Customer = _db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name),
+                Menus = menus,
+
+            };
+
+            return View(order);
+        }
+        [HttpPost]
+        public IActionResult Order(Order order)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Add(order);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(order);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
