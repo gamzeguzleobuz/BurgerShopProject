@@ -1,4 +1,6 @@
-﻿    <!-- start home section -->
+﻿@using BurgerShopProject.Entities
+@model List<Menu>
+   <!-- start home section -->
 <section class="home text-center" id="home">
     <div class="container">
         <div class="content">
@@ -60,21 +62,25 @@
     <h2>our menu</h2>
     <div class="container">
         <div class="row g-3">
-            <div class="col-md-4 col-sm-6">
-                <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="150">
-                    <img src="~/images/product-1.png" alt="" />
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 col-sm-6">
+                    <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="150">
+                        <img src="~/images/product-1.png" alt="" />
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <h3>@item.MenuName</h3>
+                        <span><sup>$</sup>@item.MenuPrice</span>
+                        <a asp-controller="Orders" asp-action="Create" class="custom-btn">add to cart</a>
                     </div>
-                    <h3>cheese hamburger</h3>
-                    <span><sup>$</sup>29.99</span>
-                    <a href="#" class="custom-btn">add to cart</a>
                 </div>
-            </div>
+            }
+
             <div class="col-md-4 col-sm-6">
                 <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="300">
                     <img src="~/images/product-2.png" alt="" />

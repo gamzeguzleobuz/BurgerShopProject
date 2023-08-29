@@ -48,7 +48,7 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Yönetim</a>
-                           
+
                             }
                         </form>
                     }
@@ -61,9 +61,11 @@
                         <a class="nav-link" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Login">Login</a>
                     }
                 </div>
+                <div>
+                    <a class="logo"><img src="~/images/logo.png" alt="" /></a>
+                    <a asp-controller="Orders" asp-action="Index"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
 
-                <a href="#" class="logo"><img src="~/images/logo.png" alt="" /></a>
-                <i class="fas fa-shopping-cart icons"></i>
+                </div>
             </div>
         </div>
 
