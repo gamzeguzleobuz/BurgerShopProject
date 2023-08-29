@@ -123,11 +123,12 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         {
             if (id == null || _context.Menus == null)
             {
-                return NotFound();
+                return View();
             }
 
             var menu = await _context.Menus
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
             if (menu == null)
             {
                 return NotFound();

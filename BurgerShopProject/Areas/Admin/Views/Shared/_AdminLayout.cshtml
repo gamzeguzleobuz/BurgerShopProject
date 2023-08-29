@@ -221,24 +221,27 @@
                                         <p>List Menu</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Menu" asp-action="Create" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>New Menu</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Menu" asp-action="Delete" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Delete Menu</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Menu" asp-action="Edit" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Update Menu</p>
-                                    </a>
-                                </li>
+                                <!-- #region Menu CREATE DELETE UPDATE -->
+                                @*<li class="nav-item">
+            <a asp-controller="Menu" asp-action="Create" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>New Menu</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Menu" asp-action="Delete" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Delete Menu</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Menu" asp-action="Edit" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Update Menu</p>
+            </a>
+        </li>*@
+
+                                <!-- #endregion -->
                             </ul>
                         </li>
 
@@ -257,30 +260,29 @@
                                         <p>List Extra</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Extra" asp-action="Create" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>New Extra</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Extra" asp-action="Delete" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Delete Extra</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Extra" asp-action="Edit" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Update Extra</p>
-                                    </a>
-                                </li>
+                                <!-- #region EXTRAS CREATE UPDATE DELETE -->
+                                @*<li class="nav-item">
+            <a asp-controller="Extra" asp-action="Create" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>New Extra</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Extra" asp-action="Delete" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Delete Extra</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Extra" asp-action="Edit" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Update Extra</p>
+            </a>
+        </li>*@
+
+                                <!-- #endregion -->
                             </ul>
                         </li>
-
-                        
-
-
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

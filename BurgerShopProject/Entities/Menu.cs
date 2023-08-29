@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string MenuName { get; set; } = null!;
-        public string MenuPrice { get; set; } = null!;
+        public decimal MenuPrice { get; set; }
 
         public Size MenuSize { get; set; }
 
