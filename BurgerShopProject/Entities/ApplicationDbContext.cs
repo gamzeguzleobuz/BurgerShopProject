@@ -7,7 +7,7 @@ namespace BurgerShopProject.Entities
     {
         public DbSet<Menu> Menus => Set<Menu>();
         public DbSet<Order> Orders => Set<Order>();
-        public DbSet<Extra> Extras => Set<Extra>();
+        public DbSet<Extras> Extras => Set<Extras>();
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

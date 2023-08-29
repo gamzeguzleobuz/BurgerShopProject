@@ -56,7 +56,7 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ExtraName,ExtraPrice")] Extra extras)
+        public async Task<IActionResult> Create([Bind("Id,ExtraName,ExtraPrice")] Extras extras)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ExtraName,ExtraPrice")] Extra extras)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ExtraName,ExtraPrice")] Extras extras)
         {
             if (id != extras.Id)
             {
