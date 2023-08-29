@@ -12,7 +12,21 @@
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
         </form>
+
+        
+
+
     </li>
+
+      
+
+
+    @if (User.IsInRole("Admin"))
+    {
+        <li class="nav-item">
+            <a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Management</a>
+        </li>
+    }
 }
 else
 {
