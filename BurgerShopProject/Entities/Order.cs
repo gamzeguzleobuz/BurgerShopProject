@@ -6,7 +6,7 @@
         public List<Menu> Menus { get; set; } = new();
         public AppUser Customer { get; set; } = null!;
 
-        public List<Extras> Extras { get; set; } = new();
+        public List<Extra> Extras { get; set; } = new();
 
         public int OrderPiece { get; set; }
 
