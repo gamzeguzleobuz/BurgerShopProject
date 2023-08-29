@@ -30,6 +30,10 @@ namespace BurgerShopProject.Controllers
         public IActionResult Order()
         {
             var menus = _db.Menus.ToList(); // Menüleri veritabanından al
+            if (ModelState.IsValid)
+            {
+                return View(menus);
+            }
             //var order = new Order
             //{
             //    OrderPrice = 0,
@@ -40,18 +44,21 @@ namespace BurgerShopProject.Controllers
 
             //};
 
-            return View(menus);
+            return View();
         }
         [HttpPost]
         public IActionResult Order(Order order)
         {
+                order.Customer = _db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                order.OrderPrice = order.Menus.Sum(x => x.MenuPrice);
+                _db.Add(order);
+                _db.SaveChanges();
 
-            _db.Add(order);
-            _db.SaveChanges();
+
+                var orders = _db.Orders.Where(x => x.Customer.UserName == User.Identity.Name).ToList();
+            return RedirectToAction("Index", "Orders",orders);
 
 
-            var orders = _db.Orders.Where(x => x.Customer.UserName == User.Identity.Name).ToList();
-            return View(nameof(BurgerShopProject.OrdersController.Index), orders);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

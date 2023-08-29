@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<BurgerShopProject.Entities.Order>
-
-@*@{ 
-    Layout = null;
-}*@
+@*@{
+        Layout = null;
+    }*@
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+
+
+@*Order price gelmiyor o halledilecek*@
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -25,20 +27,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderPiece)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderPrice)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderPiece)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderPrice)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

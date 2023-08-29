@@ -1,53 +1,56 @@
 ﻿@model IEnumerable<BurgerShopProject.Entities.Menu>
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Order";
 }
 
-<h1>Index</h1>
+<h1>Order</h1>
 
-<form method="post">
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.MenuName)
+                    Menu Name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MenuPrice)
+                    Menu Price
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MenuSize)
+                    Menu Size
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.MenuImageName)
+                    Menu Image
                 </th>
                 <th></th>
             </tr>
         </thead>
-        @*<tbody>*@
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MenuName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MenuPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MenuSize)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MenuImageName)
+                    </td>
+                    <td>
+                        <form method="post" asp-controller="Home" asp-action="Order">
+                            <input type="hidden" asp-for="@item.MenuPrice" name="Id" value="@item.MenuPrice" />
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
-    <div>
-        @foreach (var item in Model)
-        {
-            @*<tr>*@
-            <div class="form-control">
-                <label asp-for="@item.Id" class="control-label"></label>
-                <input asp-for="@item.Id" class="form-control" readonly />
-                <span asp-validation-for="@item.Id" class="text-danger"></span>
-            </div>
-            @*<td>*@
-            <div class="form-control">
 
-                <a asp-controller="Home" asp-action="Order"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
-
-            </div>
-            @*</td>*@
-            @*</tr>*@
-        }
-        @*</tbody>*@
-    </div>
-</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
