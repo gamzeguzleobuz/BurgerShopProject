@@ -1,0 +1,47 @@
+﻿
+@model MenuViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Menu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MenuName" class="control-label"></label>
+                <input asp-for="MenuName" class="form-control" />
+                <span asp-validation-for="MenuName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MenuPrice" class="control-label"></label>
+                <input asp-for="MenuPrice" class="form-control" />
+                <span asp-validation-for="MenuPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MenuSize" class="control-label"></label>
+                <select asp-for="MenuSize" class="form-control"></select>
+                <span asp-validation-for="MenuSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MenuImageName" class="control-label"></label>
+                <input asp-for="MenuImageName" class="form-control" />
+                <span asp-validation-for="MenuImageName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -44,7 +44,7 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
                 </li>
-               
+
             </ul>
 
             <!-- Right navbar links -->
@@ -185,7 +185,7 @@
                         <img src="~/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">@User?.Identity?.Name</a>
                     </div>
                 </div>
 
@@ -207,16 +207,80 @@
                         <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-file"></i>
                                 <p>
-                                    Dashboard
+                                    Menu Management
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                           
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-controller="Menu" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>List Menu</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Menu" asp-action="Create" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>New Menu</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Menu" asp-action="Delete" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Delete Menu</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Menu" asp-action="Edit" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Update Menu</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                       
+
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-file"></i>
+                                <p>
+                                    Extra Management
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-controller="Extra" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>List Extra</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Extra" asp-action="Create" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>New Extra</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Extra" asp-action="Delete" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Delete Extra</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Extra" asp-action="Edit" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Update Extra</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        
+
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -244,15 +308,15 @@
             </div>
             <div class="content">
                 <div class="content-fluid">
-                    @RenderBody();
+                    @RenderBody()
                 </div>
             </div>
 
-            
+
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">BurgerShop</a>.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 3.2.0
@@ -277,7 +341,6 @@
     <!-- Bootstrap 4 -->
     <script src="~/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- ChartJS -->
-    
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="~/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <!-- Summernote -->
@@ -287,8 +350,8 @@
     <!-- AdminLTE App -->
     <script src="~/admin/dist/js/adminlte.js"></script>
     <!-- AdminLTE for demo purposes -->
-    
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="~/admin/dist/js/pages/dashboard.js"></script>
+    @await RenderSectionAsync("Scripts", false)
 </body>
 </html>
