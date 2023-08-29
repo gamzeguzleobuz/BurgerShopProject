@@ -1,6 +1,6 @@
 ﻿namespace BurgerShopProject.Entities
 {
-    public class Extras
+    public class Extra
     {
         public int Id { get; set; }
         public string ExtraName { get; set; } = null!;
