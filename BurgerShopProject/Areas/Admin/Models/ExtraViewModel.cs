@@ -2,6 +2,7 @@
 {
     public class ExtraViewModel
     {
+       
         public string ExtraName { get; set; } = null!;
 
         public decimal ExtraPrice { get; set; }

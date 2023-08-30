@@ -1,4 +1,8 @@
-﻿@model IEnumerable<BurgerShopProject.Entities.Extra>
+﻿@*@model IEnumerable<BurgerShopProject.Entities.Extra>*@
+
+@model IEnumerable<ExtraViewModel>
+
+
 
 
 @{
@@ -34,7 +38,8 @@
                     @Html.DisplayFor(modelItem => item.ExtraPrice)
                 </td>
                 <td>
-                    <img src="~/images/@item.ExtraImageName" alt="Extra Image" />
+                    @Html.DisplayFor(modelItem => item.ExtraImageName)
+                    @*<img src="~/images/@item.ExtraImageName" alt="Extra Image" />*@
                 </td>
 
                 <td>
