@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Drawing;
+﻿using BurgerShopProject.Entities;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace BurgerShopProject.Areas.Admin.Models
 {
