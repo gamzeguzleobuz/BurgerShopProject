@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BurgerShopProject.Entities;
+using BurgerShopProject.Areas.Admin.Models;
 
 namespace BurgerShopProject.Areas.Admin.Controllers
 {
@@ -56,15 +57,30 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ExtraName,ExtraPrice")] Extra extras)
+        public async Task<IActionResult> Create([Bind("Id,ExtraName,ExtraPrice,ExtraImageName")] ExtraViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(extras);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var menu = new Extra();
+                menu.ExtraName = vm.ExtraName;
+                menu.ExtraPrice = vm.ExtraPrice;
+
+                if (vm.ExtraImageName != null)
+                {
+                    var fileName = vm.ExtraImageName.FileName;
+                    menu.ExtraImageName = fileName;
+                    string fmName = Guid.NewGuid().ToString() + fileName;
+                    var route = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                    var flowArea = new FileStream(route, FileMode.Create);
+                    vm.ExtraImageName.CopyTo(flowArea);
+                    flowArea.Close();
+                }
+                _context.Extras.Add(menu);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return View(extras);
+
+            return View();
         }
 
         // GET: Admin/Extra/Edit/5

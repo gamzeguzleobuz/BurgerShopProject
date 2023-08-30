@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BurgerShopProject.Entities;
+using System.ComponentModel.DataAnnotations;
+using BurgerShopProject.Areas.Admin.Models;
 
 namespace BurgerShopProject.Areas.Admin.Controllers
 {
@@ -46,6 +48,7 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         }
 
         // GET: Admin/Menu/Create
+        
         public IActionResult Create()
         {
             return View();
@@ -56,15 +59,30 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MenuName,MenuPrice,MenuSize,MenuImageName")] Menu menu)
-        {
+        public async Task<IActionResult> Create([Bind("Id,MenuName,MenuPrice,MenuSize,MenuImageName")] MenuViewModel vm)
+            {
             if (ModelState.IsValid)
             {
-                _context.Add(menu);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var menu = new Menu();
+                menu.MenuName = vm.MenuName;
+                menu.MenuPrice = vm.MenuPrice;
+
+                if (vm.MenuImageName != null)
+                {
+                    var fileName = vm.MenuImageName.FileName;
+                    menu.MenuImageName = fileName;
+                    string fmName = Guid.NewGuid().ToString() + fileName;
+                    var route = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                    var flowArea = new FileStream(route, FileMode.Create);
+                    vm.MenuImageName.CopyTo(flowArea);
+                    flowArea.Close();
+                }
+                _context.Menus.Add(menu);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return View(menu);
+
+            return View();
         }
 
         // GET: Admin/Menu/Edit/5
