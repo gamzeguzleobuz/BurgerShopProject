@@ -18,6 +18,7 @@
     <!-- aos plugin -->
     <link href="~/css/aos.css" rel="stylesheet">
     <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/css/all.min.css" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/style.css" />
@@ -26,48 +27,103 @@
     <!-- start header -->
     <header>
         <div class="container">
-            <div class="box">
+            <div class="">
+
                 <i id="menu-btn" class="fas fa-bars icons"></i>
-                <i id="search-btn" class="fas fa-search icons"></i>
-                <nav>
-                    <span class="space"></span>
-                    <a href="#home">home</a>
-                    <a href="#menu">menu</a>
-                    <a href="#about">about</a>
-                    <span class="space"></span>
-                    @*<a href="#reviews">reviews</a>
-                        <a href="#contact">contact</a>
-                        <a href="#blogs">blogs</a>*@
+
+                <a asp-controller="Home" asp-action="Index" class="logo"><img src="~/images/logo.png" alt="" /></a>
+
+                <span class="space"></span>
+                <nav class="">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <a href="/Home/Index">home</a>
+                            <a href="/Home/Index/#menu">menu</a>
+                            <a href="/Home/Index/#about">about</a>
+                            <a href="/Home/Index/#reviews">reviews</a>
+                            <a href="/Home/Index/#contact">contact</a>
+                        </div>
+
+                        <div>
+
+                            <div class="d-flex">
+
+                                <i id="search-btn" class="fas fa-search icons me-5 m"></i>
+                                <a asp-controller="Orders" asp-action="Index"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
+                                <span class="space"></span>
+
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">User</a>
+
+                                    <form class="d-block" asp-area="Identity" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+
+                                        <div class="d-flex">
+
+
+                                            <button type="submit" class="btn text-white" style="font-size: 1.3rem; margin: 0; padding: 0;">Logout</button>
+
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <a class="" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Yönetim</a>
+                                            }
+                                        </div>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a class="" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                }
+                                @if (!SignInManager.IsSignedIn(User))
+                                {
+                                    <a class="" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                }
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+
+
                 </nav>
-                <div>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button type="submit" class="nav-link btn btn-link">Logout</button>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <a class="nav-link px-lg-3 py-3 py-lg-4" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Yönetim</a>
 
-                            }
-                        </form>
-                    }
-                    else
-                    {
-                        <a class="nav-link" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                    }
-                    @if (!SignInManager.IsSignedIn(User))
-                    {
-                        <a class="nav-link" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                    }
-                </div>
-                <div>
-                    <a class="logo"><img src="~/images/logo.png" alt="" /></a>
-                    <a asp-controller="Orders" asp-action="Index"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
 
-                </div>
+
+
+
             </div>
         </div>
+        @* <div class="d-flex justify-contetn-end ">
+        @if (SignInManager.IsSignedIn(User))
+        {
+        <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name</a>
+
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+
+        <button type="submit" class="btn text-white">Logout</button>
+
+        @if (User.IsInRole("Admin"))
+        {
+        <a class=" px-lg-3 py-3 py-lg-4" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Yönetim</a>
+        }
+        </form>
+        }
+        else
+        {
+        <a class="" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        }
+        @if (!SignInManager.IsSignedIn(User))
+        {
+        <a class="" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        }
+        </div>*@
 
 
 
@@ -88,15 +144,8 @@
     <!-- start footer -->
     <footer class="mt-5 py-2">
         <div class="container">
-            <div class="links">
-                <a class="custom-btn" href="#home">home</a>
-                <a class="custom-btn" href="#menu">menu</a>
-                <a class="custom-btn" href="#about">about</a>
-                <a class="custom-btn" href="#reviews">reviews</a>
-                <a class="custom-btn" href="#contact">contact</a>
-                <a class="custom-btn" href="#blogs">blogs</a>
-            </div>
-            <p class="copyright">Made With <i class="fas fa-heart"></i> | All Rights Reserved!</p>
+
+            <p class="copyright">Made With GSBY | All Rights Reserved</p>
         </div>
     </footer>
     <script src="~/js/aos.js"></script>

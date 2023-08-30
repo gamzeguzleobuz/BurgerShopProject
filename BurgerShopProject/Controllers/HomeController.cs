@@ -20,6 +20,7 @@ namespace BurgerShopProject.Controllers
         public IActionResult Index()
         {
             return View(_db.Menus.OrderByDescending(x => x.Id).ToList());
+
         }
 
         public IActionResult Privacy()
@@ -33,6 +34,12 @@ namespace BurgerShopProject.Controllers
             if (ModelState.IsValid)
             {
                 return View(menus);
+            }
+
+            var extras = _db.Extras.ToList(); // Extraları veritabanından al
+            if (ModelState.IsValid)
+            {
+                return View(extras);
             }
             //var order = new Order
             //{
