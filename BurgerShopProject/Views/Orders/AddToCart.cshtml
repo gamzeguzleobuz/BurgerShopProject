@@ -1,4 +1,4 @@
-﻿@model List<OrdersCartViewModel>
+﻿@model OrdersCartViewModel
 
 
 <div class="cart-section" style="margin-top:200px">
@@ -17,10 +17,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item2 in Model.Menus)
                             {
-                                foreach (var item2 in item.Menus)
-                                {
+                                
 
                                 <tr class="table-body-row">
                                     <td class="product-remove"><a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
@@ -34,7 +33,7 @@
                                                     }
                                                     <img src="@imageUrl" alt="Image" width="100" height="100" />
                                                 </a>*@
-                                            <img src="~/images/@item2.MenuImageName" alt="Alternate Text" />
+                                        <img src="~/images/@item2.MenuImageName" alt="Alternate Text" width="126" height="60" />
                                         }
                                     </td>
                                     <td class="product-name">@item2.MenuName</td>

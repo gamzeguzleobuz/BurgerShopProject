@@ -9,6 +9,8 @@ using BurgerShopProject.Entities;
 using BurgerShopProject.Models;
 using Microsoft.Identity.Client;
 using Microsoft.AspNetCore.Identity;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BurgerShopProject
 {
@@ -17,25 +19,105 @@ namespace BurgerShopProject
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
+
         public OrdersController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             _userManager = userManager;
+
         }
 
-        public IActionResult AddToCart(string id)
+        public IActionResult AddToCart(int? id)
         {
-            var customer = _context.Users.Find(id);
+            _userManager.GetUserId(HttpContext.User);
+            //var user = await _userManager.GetUserAsync(HttpContext.User);
+            var a = _context.Users.Count();
+            var user = HttpContext.User.Identity?.Name;
+
+            var menu = _context.Menus.Where(x => x.Id == id).FirstOrDefault();
+            var users = _context.Users.ToList();
+            var customer = users.Where(x => x.UserName == user).FirstOrDefault();
+
 
             if (customer == null)
                 return NotFound();
 
-            return View(customer);
+            var order = new Order
+            {
+                Menus = new List<Menu> { menu },
+                //Extras = new List<Extra>(),
+                OrderPrice = 0,
+                OrderPiece = 0,
+                Id = _context.Orders.Count() + 1,
+                Customer = customer
+            };
+
+
+            customer.Orders.Add(order);
+            List<Menu> menus = new List<Menu>();
+            foreach (Order item in customer.Orders)
+            {
+                menus.AddRange(item.Menus);
+            }
+
+            List<Extra> extras = new List<Extra>();
+
+            foreach (Order item in customer.Orders)
+            {
+                extras.AddRange(item.Extras);
+            }
+
+            //OrdersCartViewModel ordersCartViewModel;
+            //var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+            //if (ordersCartViewModelFromSession == null)
+            //{
+            //    ordersCartViewModel = new OrdersCartViewModel
+            //    {
+            //        Customer = customer,
+            //        Menus = menus,
+            //        Extras = extras
+            //    };
+            //    HttpContext.Session.Set("cartItems", ordersCartViewModel);
+            //    return View(ordersCartViewModel);
+
+            //}
+            //else
+            //{
+            //    ordersCartViewModelFromSession = ordersCartViewModelFromSession;
+            //    ordersCartViewModelFromSession.Menus.AddRange(menus);
+            //    ordersCartViewModelFromSession.Extras.AddRange(extras);
+            //}
+            //return View(ordersCartViewModelFromSession);
+            var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+            if (ordersCartViewModelFromSession == null)
+            {
+                ordersCartViewModelFromSession = new OrdersCartViewModel
+                {
+                    Customer = customer,
+                    Menus = menus,
+                    Extras = extras
+                };
+            }
+            else
+            {
+                ordersCartViewModelFromSession.Menus.AddRange(menus);
+                ordersCartViewModelFromSession.Extras.AddRange(extras);
+            }
+
+            HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
+            return View(ordersCartViewModelFromSession);
         }
+
+
+
 
         [HttpPost]
         public IActionResult AddToCart(OrdersCartViewModel ordersCartViewModel)
         {
+
+
+
+
             List<Order> orders = new List<Order>();
             Order o1 = new Order();
             var customer = ordersCartViewModel.Customer;
@@ -189,6 +271,35 @@ namespace BurgerShopProject
         private bool OrderExists(int id)
         {
             return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+    }
+
+    public static class SessionExtensions
+    {
+        public static void Set<T>(this ISession session, string key, T value, JsonSerializerOptions options = null)
+        {
+            options ??= new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+
+            session.SetString(key, JsonSerializer.Serialize(value, options));
+        }
+
+        public static T Get<T>(this ISession session, string key, JsonSerializerOptions options = null)
+        {
+            var value = session.GetString(key);
+            if (value == null)
+            {
+                return default;
+            }
+
+            options ??= new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+
+            return JsonSerializer.Deserialize<T>(value, options);
         }
     }
 }
