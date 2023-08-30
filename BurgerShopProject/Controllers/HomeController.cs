@@ -2,6 +2,7 @@
 using BurgerShopProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
 
 namespace BurgerShopProject.Controllers
@@ -19,7 +20,15 @@ namespace BurgerShopProject.Controllers
 
         public IActionResult Index()
         {
-            return View(_db.Menus.OrderByDescending(x => x.Id).ToList());
+            ViewBag.Menus = _db.Menus.ToList();
+            ViewBag.Extras = _db.Extras.ToList();
+      
+            var viewModel = new MenuExtraViewModel
+            {
+                Menu = _db.Menus.OrderByDescending(x => x.Id).ToList(),
+                Extra = _db.Extras.OrderByDescending(x => x.Id).ToList()
+            };
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
@@ -33,6 +42,12 @@ namespace BurgerShopProject.Controllers
             if (ModelState.IsValid)
             {
                 return View(menus);
+            }
+
+            var extras = _db.Extras.ToList(); // Extraları veritabanından al
+            if (ModelState.IsValid)
+            {
+                return View(extras);
             }
             //var order = new Order
             //{

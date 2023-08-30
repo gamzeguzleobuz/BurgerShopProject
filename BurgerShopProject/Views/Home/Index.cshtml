@@ -1,6 +1,12 @@
-﻿@using BurgerShopProject.Entities
+﻿@*@using BurgerShopProject.Entities
 @model List<Menu>
-   <!-- start home section -->
+*@
+
+@using BurgerShopProject.Models
+@model MenuExtraViewModel
+
+
+<!-- start home section -->
 <section class="home text-center" id="home">
     <div class="container">
         <div class="content">
@@ -12,14 +18,11 @@
                 Cum.
             </p>
             <a href="#menu" class="custom-btn" data-aos="fade-up" data-aos-delay="600">our menu</a>
+            <a href="#extra" class="custom-btn" data-aos="fade-up" data-aos-delay="600">our extra</a>
         </div>
     </div>
 </section>
 <!-- start services section -->
-
-@*github deneme*@
-@*yasin*@
-@*gamze*@
 <section class="services text-center">
     <div class="container-lg">
         <div class="row g-3">
@@ -62,7 +65,7 @@
     <h2>our menu</h2>
     <div class="container">
         <div class="row g-3">
-            @foreach (var item in Model)
+            @foreach (var item in Model.Menu)
             {
                 Random rnd = new Random();
                 <div class="col-md-4 col-sm-6">
@@ -81,7 +84,6 @@
                     </div>
                 </div>
             }
-
             <div class="col-md-4 col-sm-6">
                 <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="300">
                     <img src="~/images/product-2.png" alt="" />
@@ -160,6 +162,144 @@
         </div>
     </div>
 </section>
+<!-- start extra section -->
+<section class="extra text-center" id="extra">
+    <img src="~/images/title-img.png" alt="" />
+    <h2>our extra</h2>
+    <div class="container">
+        <div class="row g-3">
+            @foreach (var item in Model.Extra)
+            {
+                Random rnd = new Random();
+                <div class="col-md-4 col-sm-6">
+                    <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="150">
+                        <img src="~/images/extra-1.png" alt="" />
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <h3>@item.ExtraName</h3>
+                        <span><sup>$</sup>@item.ExtraPrice</span>
+                        <a asp-controller="Home" asp-action="Order" class="custom-btn">add to cart</a>
+                    </div>
+                </div>
+            }
+            <div class="col-md-4 col-sm-6">
+                <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="150">
+                    <img src="~/images/extra-1.png" alt="" />
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h3>Potato</h3>
+                    <span><sup>$</sup>29.99</span>
+                    <a asp-controller="Home" asp-action="Order" class="custom-btn">add to cart</a>
+                </div>
+            </div>
+            }
+            <div class="col-md-4 col-sm-6">
+                <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="300">
+                    <img src="~/images/extra-2.png" alt="" />
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h3>Curly Potato</h3>
+                    <span><sup>$</sup>29.99</span>
+                    <a href="#" class="custom-btn">add to cart</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="450">
+                    <img src="~/images/extra-3.png" alt="" />
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h3>Onion Ring</h3>
+                    <span><sup>$</sup>29.99</span>
+                    <a href="#" class="custom-btn">add to cart</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="600">
+                    <img src="~/images/extra-4.png" alt="" />
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h3>Cheese Stick</h3>
+                    <span><sup>$</sup>29.99</span>
+                    <a href="#" class="custom-btn">add to cart</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="750">
+                    <img src="~/images/extra-5.png" alt="" />
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h3>Coco Cola</h3>
+                    <span><sup>$</sup>29.99</span>
+                    <a href="#" class="custom-btn">add to cart</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="900">
+                    <img src="~/images/extra-6.png" alt="" />
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h3>Coco Cola Zero</h3>
+                    <span><sup>$</sup>29.99</span>
+                    <a href="#" class="custom-btn">add to cart</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="box d-flex flex-column align-items-center" data-aos="fade-up" data-aos-delay="900">
+                    <img src="~/images/extra-7.png" alt="" />
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h3>Ice Tea</h3>
+                    <span><sup>$</sup>29.99</span>
+                    <a href="#" class="custom-btn">add to cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
 <!-- start about section -->
 <section class="about" id="about">
     <div class="container">
@@ -328,63 +468,63 @@
     </div>
 </section>
 
-<!-- start blogs section -->
-<section class="blogs text-center" id="blogs">
-    <img src="~/images/title-img.png" alt="" />
-    <h2>daily posts</h2>
-    <div class="container-lg">
-        <div class="row g-4">
+@*<!-- start blogs section -->
+            <section class="blogs text-center" id="blogs">
+            <img src="~/images/title-img.png" alt="" />
+            <h2>daily posts</h2>
+            <div class="container-lg">
+            <div class="row g-4">
             <div class="col-md-4 col-sm-6">
-                <div class="box" data-aos="fade-up" data-aos-delay="150">
-                    <div class="image">
-                        <img src="~/images/blog-1.jpg" alt="" class="w-100" />
-                        <div class="layer">
-                            <a href="#"><i class="fas fa-calendar"></i> 21st May, 2022</a>
-                            <a href="#"><i class="fas fa-user"></i> By Admin</a>
-                        </div>
-                    </div>
-                    <h3>blog title goes here</h3>
-                    <p>
-                        Lorem Ipsum Dolor Sit, Amet Consectetur Adipisicing Elit.
-                        Voluptas, Maxime.
-                    </p>
-                    <a href="#" class="custom-btn">read more</a>
-                </div>
+            <div class="box" data-aos="fade-up" data-aos-delay="150">
+            <div class="image">
+            <img src="~/images/blog-1.jpg" alt="" class="w-100" />
+            <div class="layer">
+            <a href="#"><i class="fas fa-calendar"></i> 21st May, 2022</a>
+            <a href="#"><i class="fas fa-user"></i> By Admin</a>
+            </div>
+            </div>
+            <h3>blog title goes here</h3>
+            <p>
+            Lorem Ipsum Dolor Sit, Amet Consectetur Adipisicing Elit.
+            Voluptas, Maxime.
+            </p>
+            <a href="#" class="custom-btn">read more</a>
+            </div>
             </div>
             <div class="col-md-4 col-sm-6">
-                <div class="box" data-aos="fade-up" data-aos-delay="300">
-                    <div class="image">
-                        <img src="~/images/blog-2.jpg" alt="" class="w-100" />
-                        <div class="layer">
-                            <a href="#"><i class="fas fa-calendar"></i> 21st May, 2022</a>
-                            <a href="#"><i class="fas fa-user"></i> By Admin</a>
-                        </div>
-                    </div>
-                    <h3>blog title goes here</h3>
-                    <p>
-                        Lorem Ipsum Dolor Sit, Amet Consectetur Adipisicing Elit.
-                        Voluptas, Maxime.
-                    </p>
-                    <a href="#" class="custom-btn">read more</a>
-                </div>
+            <div class="box" data-aos="fade-up" data-aos-delay="300">
+            <div class="image">
+            <img src="~/images/blog-2.jpg" alt="" class="w-100" />
+            <div class="layer">
+            <a href="#"><i class="fas fa-calendar"></i> 21st May, 2022</a>
+            <a href="#"><i class="fas fa-user"></i> By Admin</a>
+            </div>
+            </div>
+            <h3>blog title goes here</h3>
+            <p>
+            Lorem Ipsum Dolor Sit, Amet Consectetur Adipisicing Elit.
+            Voluptas, Maxime.
+            </p>
+            <a href="#" class="custom-btn">read more</a>
+            </div>
             </div>
             <div class="col-md-4 col-sm-6">
-                <div class="box" data-aos="fade-up" data-aos-delay="450">
-                    <div class="image">
-                        <img src="~/images/blog-3.jpg" alt="" class="w-100" />
-                        <div class="layer">
-                            <a href="#"><i class="fas fa-calendar"></i> 21st May, 2022</a>
-                            <a href="#"><i class="fas fa-user"></i> By Admin</a>
-                        </div>
-                    </div>
-                    <h3>blog title goes here</h3>
-                    <p>
-                        Lorem Ipsum Dolor Sit, Amet Consectetur Adipisicing Elit.
-                        Voluptas, Maxime.
-                    </p>
-                    <a href="#" class="custom-btn">read more</a>
-                </div>
+            <div class="box" data-aos="fade-up" data-aos-delay="450">
+            <div class="image">
+            <img src="~/images/blog-3.jpg" alt="" class="w-100" />
+            <div class="layer">
+            <a href="#"><i class="fas fa-calendar"></i> 21st May, 2022</a>
+            <a href="#"><i class="fas fa-user"></i> By Admin</a>
             </div>
-        </div>
-    </div>
-</section> 
+            </div>
+            <h3>blog title goes here</h3>
+            <p>
+            Lorem Ipsum Dolor Sit, Amet Consectetur Adipisicing Elit.
+            Voluptas, Maxime.
+            </p>
+            <a href="#" class="custom-btn">read more</a>
+            </div>
+            </div>
+            </div>
+            </div>
+            </section> *@

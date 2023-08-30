@@ -7,6 +7,7 @@
 
         public decimal ExtraPrice { get; set; }
 
+        public string? ExtraImageName { get; set; }
         public List<Order> Orders { get; set; } = new();
     }
 }
