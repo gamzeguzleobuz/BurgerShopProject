@@ -11,6 +11,7 @@ using Microsoft.Identity.Client;
 using Microsoft.AspNetCore.Identity;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Drawing;
 
 namespace BurgerShopProject
 {
@@ -113,6 +114,88 @@ namespace BurgerShopProject
 
         [HttpPost]
         public IActionResult AddToCart(OrdersCartViewModel ordersCartViewModel)
+        {
+
+
+
+
+            List<Order> orders = new List<Order>();
+            Order o1 = new Order();
+            var customer = ordersCartViewModel.Customer;
+            o1.Customer = ordersCartViewModel.Customer;
+            o1.Menus = ordersCartViewModel.Menus;
+            o1.Extras = ordersCartViewModel.Extras;
+            customer.Orders.Add(o1);
+            orders.Add(o1);
+            _context.Add(o1);
+            _context.SaveChanges();
+
+            return View(orders);
+        }
+
+        public IActionResult ExtraAddToCart(int? id)
+        {
+
+            _userManager.GetUserId(HttpContext.User);
+            //var user = await _userManager.GetUserAsync(HttpContext.User);
+            var a = _context.Users.Count();
+            var user = HttpContext.User.Identity?.Name;
+
+            var extra = _context.Extras.Where(x => x.Id == id).FirstOrDefault();
+            var users = _context.Users.ToList();
+            var customer = users.Where(x => x.UserName == user).FirstOrDefault();
+
+
+            if (customer == null)
+                return NotFound();
+
+            var order = new Order
+            {
+                //Menus = new List<Menu>,
+                Extras = new List<Extra> { extra },
+                OrderPrice = 0,
+                OrderPiece = 0,
+                Id = _context.Orders.Count() + 1,
+                Customer = customer
+            };
+
+
+            customer.Orders.Add(order);
+            List<Menu> menus = new List<Menu>();
+            foreach (Order item in customer.Orders)
+            {
+                menus.AddRange(item.Menus);
+            }
+
+            List<Extra> extras = new List<Extra>();
+
+            foreach (Order item in customer.Orders)
+            {
+                extras.AddRange(item.Extras);
+            }
+
+
+            var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+            if (ordersCartViewModelFromSession == null)
+            {
+                ordersCartViewModelFromSession = new OrdersCartViewModel
+                {
+                    Customer = customer,
+                    Menus = menus,
+                    Extras = extras
+                };
+            }
+            else
+            {
+                ordersCartViewModelFromSession.Menus.AddRange(menus);
+                ordersCartViewModelFromSession.Extras.AddRange(extras);
+            }
+
+            HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
+            return View("AddToCart",ordersCartViewModelFromSession);
+        }
+        [HttpPost]
+        public IActionResult ExtraAddToCart(OrdersCartViewModel ordersCartViewModel)
         {
 
 

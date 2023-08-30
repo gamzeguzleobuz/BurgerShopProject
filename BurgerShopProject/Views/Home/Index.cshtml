@@ -93,6 +93,10 @@
     <h2>our extra</h2>
     <div class="container">
         <div class="row g-3">
+
+            
+
+
             @foreach (var item in Model.Extra)
             {
                 Random rnd = new Random();
@@ -108,7 +112,7 @@
                         </div>
                         <h3>@item.ExtraName</h3>
                         <span><sup>$</sup>@item.ExtraPrice</span>
-                        <a asp-controller="Home" asp-action="Order" class="custom-btn">add to cart</a>
+                        <a asp-controller="Orders" asp-action="ExtraAddToCart" asp-route-id="@item.Id" class="custom-btn">add to cart</a>
                     </div>
                 </div>
             }
