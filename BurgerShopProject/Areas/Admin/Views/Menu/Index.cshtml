@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.MenuSize)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MenuImageName)
+                <img src="~/images/@item.MenuImageName" alt="Alternate Text" />
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
