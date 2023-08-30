@@ -19,17 +19,18 @@ namespace BurgerShopProject
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-
-        public OrdersController(ApplicationDbContext context, UserManager<AppUser> userManager)
+        public OrdersController(ApplicationDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
-
+            _signInManager = signInManager;
         }
 
         public IActionResult AddToCart(int? id)
         {
+            
             _userManager.GetUserId(HttpContext.User);
             //var user = await _userManager.GetUserAsync(HttpContext.User);
             var a = _context.Users.Count();
@@ -40,8 +41,15 @@ namespace BurgerShopProject
             var customer = users.Where(x => x.UserName == user).FirstOrDefault();
 
 
+
+
             if (customer == null)
-                return NotFound();
+            {
+
+                TempData["AlertMessage"] = "Müşteri bulunamadı. Oncelikle giris yapmaniz gerekiyor!";
+                return RedirectToAction("Index","Home");
+
+            }
 
             var order = new Order
             {
