@@ -24,9 +24,7 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         // GET: Admin/Dashboard
         public async Task<IActionResult> Index()
         {
-              return _context.Orders != null ? 
-                          View(await _context.Orders.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Orders'  is null.");
+            return RedirectToAction();
         }
 
         // GET: Admin/Dashboard/Details/5
