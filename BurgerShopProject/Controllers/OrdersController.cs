@@ -6,24 +6,56 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BurgerShopProject.Entities;
+using BurgerShopProject.Models;
+using Microsoft.Identity.Client;
+using Microsoft.AspNetCore.Identity;
 
 namespace BurgerShopProject
 {
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public OrdersController(ApplicationDbContext context)
+        public OrdersController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+        }
+
+        public IActionResult AddToCart(string id)
+        {
+            var customer = _context.Users.Find(id);
+
+            if (customer == null)
+                return NotFound();
+
+            return View(customer);
+        }
+
+        [HttpPost]
+        public IActionResult AddToCart(OrdersCartViewModel ordersCartViewModel)
+        {
+            List<Order> orders = new List<Order>();
+            Order o1 = new Order();
+            var customer = ordersCartViewModel.Customer;
+            o1.Customer = ordersCartViewModel.Customer;
+            o1.Menus = ordersCartViewModel.Menus;
+            o1.Extras = ordersCartViewModel.Extras;
+            customer.Orders.Add(o1);
+            orders.Add(o1);
+            _context.Add(o1);
+            _context.SaveChanges();
+
+            return View(orders);
         }
 
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-              return _context.Orders != null ? 
-                          View(await _context.Orders.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Orders'  is null.");
+            return _context.Orders != null ?
+                        View(await _context.Orders.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Orders'  is null.");
         }
 
         // GET: Orders/Details/5
@@ -149,14 +181,14 @@ namespace BurgerShopProject
             {
                 _context.Orders.Remove(order);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderExists(int id)
         {
-          return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

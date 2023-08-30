@@ -1,5 +1,6 @@
 ﻿using BurgerShopProject.Entities;
 using BurgerShopProject.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -11,18 +12,22 @@ namespace BurgerShopProject.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _logger = logger;
             _db = db;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
         {
             ViewBag.Menus = _db.Menus.ToList();
             ViewBag.Extras = _db.Extras.ToList();
-      
+
             var viewModel = new MenuExtraViewModel
             {
                 Menu = _db.Menus.OrderByDescending(x => x.Id).ToList(),
@@ -64,14 +69,14 @@ namespace BurgerShopProject.Controllers
         [HttpPost]
         public IActionResult Order(Order order)
         {
-                order.Customer = _db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-                order.OrderPrice = order.Menus.Sum(x => x.MenuPrice);
-                _db.Add(order);
-                _db.SaveChanges();
+            order.Customer = _db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            order.OrderPrice = order.Menus.Sum(x => x.MenuPrice);
+            _db.Add(order);
+            _db.SaveChanges();
 
 
-                var orders = _db.Orders.Where(x => x.Customer.UserName == User.Identity.Name).ToList();
-            return RedirectToAction("Index", "Orders",orders);
+            var orders = _db.Orders.Where(x => x.Customer.UserName == User.Identity.Name).ToList();
+            return RedirectToAction("Index", "Orders", orders);
 
 
         }
