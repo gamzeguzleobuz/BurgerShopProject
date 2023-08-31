@@ -104,7 +104,7 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ExtraName,ExtraPrice")] Extra extras)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ExtraName,ExtraPrice,ExtraImageName")] Extra extras)
         {
             if (id != extras.Id)
             {
