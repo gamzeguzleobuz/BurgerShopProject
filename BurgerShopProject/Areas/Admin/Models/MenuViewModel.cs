@@ -12,6 +12,6 @@ namespace BurgerShopProject.Areas.Admin.Models
 
         public Size MenuSize { get; set; }
 
-        public IFormFile? MenuImageName { get; set; }
+        public IFormFile MenuImageName { get; set; } = null!;
     }
 }

@@ -7,6 +7,6 @@
 
         public decimal ExtraPrice { get; set; }
 
-        public IFormFile? ExtraImageName { get; set; }
+        public IFormFile ExtraImageName { get; set; } = null!;
     }
 }

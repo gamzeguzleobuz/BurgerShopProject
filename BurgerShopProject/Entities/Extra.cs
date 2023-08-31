@@ -1,13 +1,21 @@
-﻿namespace BurgerShopProject.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BurgerShopProject.Entities
 {
     public class Extra
     {
         public int Id { get; set; }
+
+        [Display(Name = "Extra Name")]
         public string ExtraName { get; set; } = null!;
 
+        [Display(Name = "Extra Price")]
         public decimal ExtraPrice { get; set; }
 
-        public string? ExtraImageName { get; set; }
+        [Display(Name = "Extra Image")]
+        [Required(ErrorMessage = "Please upload an image file for the product.")]
+        public string ExtraImageName { get; set; } = null!;
+   
         public List<Order> Orders { get; set; } = new();
     }
 }
