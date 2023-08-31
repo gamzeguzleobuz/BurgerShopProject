@@ -50,7 +50,7 @@
                             <div class="d-flex">
 
                                 <i id="search-btn" class="fas fa-search icons me-5 m"></i>
-                                <a asp-controller="Orders" asp-action="AddToCart"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
+                                <a asp-controller="Orders" asp-action="Cart"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
                                 <span class="space"></span>
                                 @ViewData["CartItemsCount"]
                                 @if (SignInManager.IsSignedIn(User))

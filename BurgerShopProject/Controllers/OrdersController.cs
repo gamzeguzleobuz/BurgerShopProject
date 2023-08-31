@@ -28,97 +28,108 @@ namespace BurgerShopProject
             _signInManager = signInManager;
         }
 
-        public IActionResult AddToCart(int? id)
+        public IActionResult Cart()
         {
-            
-            _userManager.GetUserId(HttpContext.User);
-            //var user = await _userManager.GetUserAsync(HttpContext.User);
-            var a = _context.Users.Count();
-            var user = HttpContext.User.Identity?.Name;
-
-            var menu = _context.Menus.Where(x => x.Id == id).FirstOrDefault();
-            var users = _context.Users.ToList();
-            var customer = users.Where(x => x.UserName == user).FirstOrDefault();
-
-
-
-
-            if (customer == null)
-            {
-
-                TempData["AlertMessage"] = "Müşteri bulunamadı. Oncelikle giris yapmaniz gerekiyor!";
-                return RedirectToAction("Index","Home");
-
-            }
-
-            var order = new Order
-            {
-                Menus = new List<Menu> { menu },
-                //Extras = new List<Extra>(),
-                OrderPrice = 0,
-                OrderPiece = 0,
-                Id = _context.Orders.Count() + 1,
-                Customer = customer
-            };
-
-
-            customer.Orders.Add(order);
-            List<Menu> menus = new List<Menu>();
-            foreach (Order item in customer.Orders)
-            {
-                menus.AddRange(item.Menus);
-            }
-
-            List<Extra> extras = new List<Extra>();
-
-            foreach (Order item in customer.Orders)
-            {
-                extras.AddRange(item.Extras);
-            }
-
-            //OrdersCartViewModel ordersCartViewModel;
-            //var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
-            //if (ordersCartViewModelFromSession == null)
-            //{
-            //    ordersCartViewModel = new OrdersCartViewModel
-            //    {
-            //        Customer = customer,
-            //        Menus = menus,
-            //        Extras = extras
-            //    };
-            //    HttpContext.Session.Set("cartItems", ordersCartViewModel);
-            //    return View(ordersCartViewModel);
-
-            //}
-            //else
-            //{
-            //    ordersCartViewModelFromSession = ordersCartViewModelFromSession;
-            //    ordersCartViewModelFromSession.Menus.AddRange(menus);
-            //    ordersCartViewModelFromSession.Extras.AddRange(extras);
-            //}
-            //return View(ordersCartViewModelFromSession);
             var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
-            if (ordersCartViewModelFromSession == null)
+            if (ordersCartViewModelFromSession != null)
             {
-                ordersCartViewModelFromSession = new OrdersCartViewModel
-                {
-                    Customer = customer,
-                    Menus = menus,
-                    Extras = extras
-                };
+                ViewData["CartItemsCount"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
             }
-            else
-            {
-                ordersCartViewModelFromSession.Menus.AddRange(menus);
-                ordersCartViewModelFromSession.Extras.AddRange(extras);
-            }
-
-            HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
-            ViewData["CartItemsCount"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
-
-            //return RedirectToAction("Index", "Home", ordersCartViewModelFromSession);
 
             return View(ordersCartViewModelFromSession);
+        }
+
+        public IActionResult AddToCart(int? id)
+        {
+            if (id != null)
+            {
+                _userManager.GetUserId(HttpContext.User);
+                //var user = await _userManager.GetUserAsync(HttpContext.User);
+                var a = _context.Users.Count();
+                var user = HttpContext.User.Identity?.Name;
+
+                var menu = _context.Menus.Where(x => x.Id == id).FirstOrDefault();
+                var users = _context.Users.ToList();
+                var customer = users.Where(x => x.UserName == user).FirstOrDefault();
+
+                if (customer == null)
+                {
+
+                    TempData["AlertMessage"] = "Müşteri bulunamadı. Oncelikle giris yapmaniz gerekiyor!";
+                    return RedirectToAction("Index", "Home");
+
+                }
+
+                var order = new Order
+                {
+                    Menus = new List<Menu> { menu },
+                    //Extras = new List<Extra>(),
+                    OrderPrice = 0,
+                    OrderPiece = 0,
+                    Id = _context.Orders.Count() + 1,
+                    Customer = customer
+                };
+
+
+                customer.Orders.Add(order);
+                List<Menu> menus = new List<Menu>();
+                foreach (Order item in customer.Orders)
+                {
+                    menus.AddRange(item.Menus);
+                }
+
+                List<Extra> extras = new List<Extra>();
+
+                foreach (Order item in customer.Orders)
+                {
+                    extras.AddRange(item.Extras);
+                }
+
+                //OrdersCartViewModel ordersCartViewModel;
+                //var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+                //if (ordersCartViewModelFromSession == null)
+                //{
+                //    ordersCartViewModel = new OrdersCartViewModel
+                //    {
+                //        Customer = customer,
+                //        Menus = menus,
+                //        Extras = extras
+                //    };
+                //    HttpContext.Session.Set("cartItems", ordersCartViewModel);
+                //    return View(ordersCartViewModel);
+
+                //}
+                //else
+                //{
+                //    ordersCartViewModelFromSession = ordersCartViewModelFromSession;
+                //    ordersCartViewModelFromSession.Menus.AddRange(menus);
+                //    ordersCartViewModelFromSession.Extras.AddRange(extras);
+                //}
+                //return View(ordersCartViewModelFromSession);
+                var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+                if (ordersCartViewModelFromSession == null)
+                {
+                    ordersCartViewModelFromSession = new OrdersCartViewModel
+                    {
+                        Customer = customer,
+                        Menus = menus,
+                        Extras = extras
+                    };
+                }
+                else
+                {
+                    ordersCartViewModelFromSession.Menus.AddRange(menus);
+                    ordersCartViewModelFromSession.Extras.AddRange(extras);
+                }
+
+                HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
+                ViewData["CartItemsCount"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
+
+                //return RedirectToAction("Index", "Home", ordersCartViewModelFromSession);
+                return View(ordersCartViewModelFromSession);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -128,98 +139,97 @@ namespace BurgerShopProject
         public IActionResult AddToCart(OrdersCartViewModel ordersCartViewModel)
         {
 
+            if (ordersCartViewModel != null)
+            {
+                List<Order> orders = new List<Order>();
+                Order o1 = new Order();
+                var customer = ordersCartViewModel.Customer;
+                o1.Customer = ordersCartViewModel.Customer;
+                o1.Menus = ordersCartViewModel.Menus;
+                o1.Extras = ordersCartViewModel.Extras;
+                customer.Orders.Add(o1);
+                orders.Add(o1);
+                _context.Add(o1);
+                _context.SaveChanges();
+                return View(orders);
+            }
 
-
-
-            List<Order> orders = new List<Order>();
-            Order o1 = new Order();
-            var customer = ordersCartViewModel.Customer;
-            o1.Customer = ordersCartViewModel.Customer;
-            o1.Menus = ordersCartViewModel.Menus;
-            o1.Extras = ordersCartViewModel.Extras;
-            customer.Orders.Add(o1);
-            orders.Add(o1);
-            _context.Add(o1);
-            _context.SaveChanges();
-
-            return View(orders);
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult ExtraAddToCart(int? id)
         {
-
-            _userManager.GetUserId(HttpContext.User);
-            //var user = await _userManager.GetUserAsync(HttpContext.User);
-            var a = _context.Users.Count();
-            var user = HttpContext.User.Identity?.Name;
-
-            var extra = _context.Extras.Where(x => x.Id == id).FirstOrDefault();
-            var users = _context.Users.ToList();
-            var customer = users.Where(x => x.UserName == user).FirstOrDefault();
-
-
-            if (customer == null)
-                return NotFound();
-
-            var order = new Order
+            if (id != null)
             {
-                //Menus = new List<Menu>,
-                Extras = new List<Extra> { extra },
-                OrderPrice = 0,
-                OrderPiece = 0,
-                Id = _context.Orders.Count() + 1,
-                Customer = customer
-            };
+                _userManager.GetUserId(HttpContext.User);
+                //var user = await _userManager.GetUserAsync(HttpContext.User);
+                var a = _context.Users.Count();
+                var user = HttpContext.User.Identity?.Name;
+
+                var extra = _context.Extras.Where(x => x.Id == id).FirstOrDefault();
+                var users = _context.Users.ToList();
+                var customer = users.Where(x => x.UserName == user).FirstOrDefault();
 
 
-            customer.Orders.Add(order);
-            List<Menu> menus = new List<Menu>();
-            foreach (Order item in customer.Orders)
-            {
-                menus.AddRange(item.Menus);
-            }
+                if (customer == null)
+                    return NotFound();
 
-            List<Extra> extras = new List<Extra>();
-
-            foreach (Order item in customer.Orders)
-            {
-                extras.AddRange(item.Extras);
-            }
-
-
-            var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
-            if (ordersCartViewModelFromSession == null)
-            {
-                ordersCartViewModelFromSession = new OrdersCartViewModel
+                var order = new Order
                 {
-                    Customer = customer,
-                    Menus = menus,
-                    Extras = extras
+                    //Menus = new List<Menu>,
+                    Extras = new List<Extra> { extra },
+                    OrderPrice = 0,
+                    OrderPiece = 0,
+                    Id = _context.Orders.Count() + 1,
+                    Customer = customer
                 };
+
+
+                customer.Orders.Add(order);
+                List<Menu> menus = new List<Menu>();
+                foreach (Order item in customer.Orders)
+                {
+                    menus.AddRange(item.Menus);
+                }
+
+                List<Extra> extras = new List<Extra>();
+
+                foreach (Order item in customer.Orders)
+                {
+                    extras.AddRange(item.Extras);
+                }
+
+
+                var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+                if (ordersCartViewModelFromSession == null)
+                {
+                    ordersCartViewModelFromSession = new OrdersCartViewModel
+                    {
+                        Customer = customer,
+                        Menus = menus,
+                        Extras = extras
+                    };
+                }
+                else
+                {
+                    ordersCartViewModelFromSession.Menus.AddRange(menus);
+                    ordersCartViewModelFromSession.Extras.AddRange(extras);
+                }
+
+                HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
+                //ViewBag.CartItems = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
+
+                ViewData["CartItemsCount"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
+
+
+                //return RedirectToAction("Index", "Home", ordersCartViewModelFromSession);
+                return View("AddToCart", ordersCartViewModelFromSession);
             }
-            else
-            {
-                ordersCartViewModelFromSession.Menus.AddRange(menus);
-                ordersCartViewModelFromSession.Extras.AddRange(extras);
-            }
-
-            HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
-            //ViewBag.CartItems = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
-
-            ViewData["CartItems"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
-
-
-            return View("AddToCart", ordersCartViewModelFromSession);
-
-            //return RedirectToAction("Index", "Home", ordersCartViewModelFromSession);
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         public IActionResult ExtraAddToCart(OrdersCartViewModel ordersCartViewModel)
         {
-
-
-
-
             List<Order> orders = new List<Order>();
             Order o1 = new Order();
             var customer = ordersCartViewModel.Customer;
