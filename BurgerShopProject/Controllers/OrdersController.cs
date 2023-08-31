@@ -114,6 +114,10 @@ namespace BurgerShopProject
             }
 
             HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
+            ViewData["CartItemsCount"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
+
+            //return RedirectToAction("Index", "Home", ordersCartViewModelFromSession);
+
             return View(ordersCartViewModelFromSession);
         }
 
@@ -200,7 +204,14 @@ namespace BurgerShopProject
             }
 
             HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
-            return View("AddToCart",ordersCartViewModelFromSession);
+            //ViewBag.CartItems = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
+
+            ViewData["CartItems"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
+
+
+            return View("AddToCart", ordersCartViewModelFromSession);
+
+            //return RedirectToAction("Index", "Home", ordersCartViewModelFromSession);
         }
         [HttpPost]
         public IActionResult ExtraAddToCart(OrdersCartViewModel ordersCartViewModel)

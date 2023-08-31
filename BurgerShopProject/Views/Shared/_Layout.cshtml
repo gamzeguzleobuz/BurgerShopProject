@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -51,9 +50,9 @@
                             <div class="d-flex">
 
                                 <i id="search-btn" class="fas fa-search icons me-5 m"></i>
-                                <a asp-controller="Orders" asp-action="Index"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
+                                <a asp-controller="Orders" asp-action="AddToCart"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
                                 <span class="space"></span>
-
+                                @ViewData["CartItemsCount"]
                                 @if (SignInManager.IsSignedIn(User))
                                 {
                                     <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">User</a>
