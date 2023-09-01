@@ -32,10 +32,17 @@
                                             {
                                                 <img src="~/images/@item2.MenuImageName" alt="Alternate Text" width="126" height="60" />
                                             }
+                                            @{
+                                                ViewBag.MenuTotalPrice = item2.Quantity * item2.MenuPrice;
+
+                                                ViewBag.TotalMenu += ViewBag.MenuTotalPrice;
+                                            }
+
                                         </td>
                                         <td class="product-name">@item2.MenuName</td>
-                                        <td class="product-price">@item2.MenuPrice TL</td>
+                                        <td class="product-price">@ViewBag.MenuTotalPrice TL</td>
                                         <td class="product-quantity">@item2.Quantity</td>
+
 
                                         @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
                                     </tr>
@@ -54,13 +61,23 @@
                                         {
                                             <img src="~/images/@item2.ExtraImageName" alt="Alternate Text" width="126" height="60" />
                                         }
+
+                                        @{
+                                            ViewBag.ExtraTotalPrice = item2.Quantity * item2.ExtraPrice;
+
+                                            ViewBag.TotalExtra += ViewBag.ExtraTotalPrice;
+
+                                        }
+
                                     </td>
                                     <td class="product-name">@item2.ExtraName</td>
-                                    <td class="product-price">@item2.ExtraPrice TL</td>
+                                    <td class="product-price">@ViewBag.ExtraTotalPrice TL</td>
                                     <td class="product-quantity">@item2.Quantity</td>
 
                                     @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
                                 </tr>
+
+
                             }
 
 
@@ -79,11 +96,26 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @{
+                                if ((Model.Menus.Count() != 0 && Model.Extras.Count() != 0) || (Model.Menus.Count() == 0 && Model.Extras.Count() != 0))
+                                {
+                                    decimal totalMenu = ViewBag.TotalMenu;
+                                    decimal totalExtra = ViewBag.TotalExtra;
+
+
+                                    ViewData["Total"] = totalMenu + totalExtra;
+
+                                }
+                            }
                             <tr class="total-data" style="color:white">
                                 <td><strong>Sepet Toplam: </strong></td>
-                                <td><!-- cartTotal --> TL</td>
+                                <td>
+                                    @ViewData["Total"] TL
+                                </td>
                             </tr>
                         </tbody>
+
+
                     </table>
                     <div class="cart-buttons">
                         <a asp-action="ConfirmCart" asp-controller="ShoppingCart" class="btn btn-dark">Siparişi Onayla</a>

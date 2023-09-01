@@ -52,6 +52,7 @@ namespace BurgerShopProject
                 var users = _context.Users.ToList();
                 var customer = users.Where(x => x.UserName == user).FirstOrDefault();
 
+
                 if (customer == null)
                 {
 
@@ -63,7 +64,6 @@ namespace BurgerShopProject
                 var order = new Order
                 {
                     Menus = new List<Menu> { menu },
-                    //Extras = new List<Extra>(),
                     OrderPrice = 0,
                     OrderPiece = 0,
                     Id = _context.Orders.Count() + 1,
@@ -106,7 +106,28 @@ namespace BurgerShopProject
                 //    ordersCartViewModelFromSession.Extras.AddRange(extras);
                 //}
                 //return View(ordersCartViewModelFromSession);
+
+                //*********************************************************************************************************************
+
+
                 var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+
+                if (ordersCartViewModelFromSession != null)
+                {
+                    var menu2 = ordersCartViewModelFromSession.Menus.Find(x => x.Id == menu.Id);
+
+                    if (ordersCartViewModelFromSession.Menus.Contains(menu2))
+                    {
+                        menu2.Quantity++;
+                    }
+                    else
+                    {
+                        ordersCartViewModelFromSession.Menus.AddRange(menus);
+                    }
+                }
+
+               
+
                 if (ordersCartViewModelFromSession == null)
                 {
                     ordersCartViewModelFromSession = new OrdersCartViewModel
@@ -117,22 +138,10 @@ namespace BurgerShopProject
                     };
                 }
 
-                var menu2 = ordersCartViewModelFromSession.Menus.Find(x => x.Id == menu.Id);
-                if (ordersCartViewModelFromSession.Menus.Contains(menu))
-                {
-                    
-                    menu.Quantity++;
-                    ordersCartViewModelFromSession.Menus.Add(menu);
+                
+               
 
-                }
-                else
-                {
-                    ordersCartViewModelFromSession.Menus.AddRange(menus);
-                }
-
-                //ordersCartViewModelFromSession.Menus.AddRange(menus);
-                //ordersCartViewModelFromSession.Extras.AddRange(extras);
-
+                //*********************************************************************************************************************
 
 
 
@@ -218,7 +227,24 @@ namespace BurgerShopProject
                 }
 
 
+                //*********************************************************************************************************************
+
                 var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+
+                if (ordersCartViewModelFromSession != null)
+                {
+                    var extra2 = ordersCartViewModelFromSession.Extras.Find(x => x.Id == extra.Id);
+
+                    if (ordersCartViewModelFromSession.Extras.Contains(extra2))
+                    {
+                        extra2.Quantity++;
+                    }
+                    else
+                    {
+                        ordersCartViewModelFromSession.Extras.AddRange(extras);
+                    }
+                }
+
                 if (ordersCartViewModelFromSession == null)
                 {
                     ordersCartViewModelFromSession = new OrdersCartViewModel
@@ -228,20 +254,12 @@ namespace BurgerShopProject
                         Extras = extras
                     };
                 }
-                else
-                {
-                    if (ordersCartViewModelFromSession.Extras.Contains(extra))
-                    {
-                        extra.Quantity++;
-                    }
-                    else
-                    {
-                        ordersCartViewModelFromSession.Extras.Add(extra);
-                    }
-                    //ordersCartViewModelFromSession.Menus.AddRange(menus);
-                    //ordersCartViewModelFromSession.Extras.AddRange(extras);
 
-                }
+
+                //*********************************************************************************************************************
+
+
+
 
                 HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
                 //ViewBag.CartItems = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
