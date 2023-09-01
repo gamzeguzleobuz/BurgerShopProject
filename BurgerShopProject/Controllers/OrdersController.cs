@@ -31,12 +31,79 @@ namespace BurgerShopProject
         public IActionResult Cart()
         {
             var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
-            if (ordersCartViewModelFromSession != null)
-            {
-                ViewData["CartItemsCount"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
-            }
+            
 
-            return View(ordersCartViewModelFromSession);
+
+            var user = HttpContext.User.Identity?.Name;
+            var users = _context.Users.ToList();
+            var customer = users.Where(x => x.UserName == user).FirstOrDefault();
+
+
+            var order = new Order
+            {
+                Customer = customer,
+                Menus = ordersCartViewModelFromSession.Menus,
+                Extras = ordersCartViewModelFromSession.Extras,
+                OrderPiece = 1,
+                OrderPrice = ordersCartViewModelFromSession.Menus.Sum(x => x.MenuPrice) + ordersCartViewModelFromSession.Extras.Sum(x => x.ExtraPrice)
+            };
+            customer.Orders.Add(order);
+            _context.SaveChanges();
+            HttpContext.Session.Remove("cartItems");
+
+            return View(order);
+        }
+
+
+        public IActionResult RemoveFromCartMenu(int? id)
+        {
+                var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+            if (id != null)
+            {
+
+
+
+                var user = HttpContext.User.Identity?.Name;
+                var users = _context.Users.ToList();
+                var customer = users.Where(x => x.UserName == user).FirstOrDefault();
+                ordersCartViewModelFromSession.Menus.RemoveAll(x => x.Id == id);
+
+                var order = new Order
+                {
+                    Customer = customer,
+                    Menus = ordersCartViewModelFromSession.Menus,
+                    Extras = ordersCartViewModelFromSession.Extras,
+                    OrderPiece = 1,
+                    OrderPrice = ordersCartViewModelFromSession.Menus.Sum(x => x.MenuPrice) + ordersCartViewModelFromSession.Extras.Sum(x => x.ExtraPrice)
+                };
+
+                return View("AddToCart", ordersCartViewModelFromSession);
+            }
+            return View("AddToCart", ordersCartViewModelFromSession);
+            
+        }
+
+        public IActionResult RemoveFromCartExtra(int? id)
+        {
+            var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
+
+
+
+            var user = HttpContext.User.Identity?.Name;
+            var users = _context.Users.ToList();
+            var customer = users.Where(x => x.UserName == user).FirstOrDefault();
+            ordersCartViewModelFromSession.Extras.RemoveAll(x => x.Id == id);
+
+            var order = new Order
+            {
+                Customer = customer,
+                Menus = ordersCartViewModelFromSession.Menus,
+                Extras = ordersCartViewModelFromSession.Extras,
+                OrderPiece = 1,
+                OrderPrice = ordersCartViewModelFromSession.Menus.Sum(x => x.MenuPrice) + ordersCartViewModelFromSession.Extras.Sum(x => x.ExtraPrice)
+            };
+
+            return View("AddToCart",ordersCartViewModelFromSession);
         }
 
         public IActionResult AddToCart(int? id)
@@ -85,30 +152,6 @@ namespace BurgerShopProject
                     extras.AddRange(item.Extras);
                 }
 
-                //OrdersCartViewModel ordersCartViewModel;
-                //var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
-                //if (ordersCartViewModelFromSession == null)
-                //{
-                //    ordersCartViewModel = new OrdersCartViewModel
-                //    {
-                //        Customer = customer,
-                //        Menus = menus,
-                //        Extras = extras
-                //    };
-                //    HttpContext.Session.Set("cartItems", ordersCartViewModel);
-                //    return View(ordersCartViewModel);
-
-                //}
-                //else
-                //{
-                //    ordersCartViewModelFromSession = ordersCartViewModelFromSession;
-                //    ordersCartViewModelFromSession.Menus.AddRange(menus);
-                //    ordersCartViewModelFromSession.Extras.AddRange(extras);
-                //}
-                //return View(ordersCartViewModelFromSession);
-
-                //*********************************************************************************************************************
-
 
                 var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
 
@@ -137,22 +180,8 @@ namespace BurgerShopProject
                         Extras = extras
                     };
                 }
-
-                
-               
-
-                //*********************************************************************************************************************
-
-
-
-
                 HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
-
-
-
                 ViewData["CartItemsCount"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
-
-                //return RedirectToAction("Index", "Home", ordersCartViewModelFromSession);
                 return View(ordersCartViewModelFromSession);
             }
 
@@ -189,7 +218,6 @@ namespace BurgerShopProject
             if (id != null)
             {
                 _userManager.GetUserId(HttpContext.User);
-                //var user = await _userManager.GetUserAsync(HttpContext.User);
                 var a = _context.Users.Count();
                 var user = HttpContext.User.Identity?.Name;
 
@@ -203,7 +231,6 @@ namespace BurgerShopProject
 
                 var order = new Order
                 {
-                    //Menus = new List<Menu>,
                     Extras = new List<Extra> { extra },
                     OrderPrice = 0,
                     OrderPiece = 0,
@@ -225,10 +252,6 @@ namespace BurgerShopProject
                 {
                     extras.AddRange(item.Extras);
                 }
-
-
-                //*********************************************************************************************************************
-
                 var ordersCartViewModelFromSession = HttpContext.Session.Get<OrdersCartViewModel>("cartItems");
 
                 if (ordersCartViewModelFromSession != null)
@@ -254,20 +277,8 @@ namespace BurgerShopProject
                         Extras = extras
                     };
                 }
-
-
-                //*********************************************************************************************************************
-
-
-
-
                 HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
-                //ViewBag.CartItems = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
-
                 ViewData["CartItemsCount"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
-
-
-                //return RedirectToAction("Index", "Home", ordersCartViewModelFromSession);
                 return View("AddToCart", ordersCartViewModelFromSession);
             }
             return RedirectToAction("Index", "Home");

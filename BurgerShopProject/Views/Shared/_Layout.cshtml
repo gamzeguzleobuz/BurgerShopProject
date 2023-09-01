@@ -20,123 +20,58 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/css/all.min.css" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="~/css/style.css" />
 </head>
 <body>
     <!-- start header -->
+
+
     <header>
-        <div class="container">
-            <div class="">
-
-                <i id="menu-btn" class="fas fa-bars icons"></i>
-
-                <a asp-controller="Home" asp-action="Index" class="logo"><img src="~/images/logo.png" alt="" /></a>
-
-                <span class="space"></span>
-                <nav class="">
-
-                    <div class="d-flex justify-content-between">
-
-                        <div>
-                            <a href="/Home/Index">home</a>
-                            <a href="/Home/Index/#menu">menu</a>
-                            <a href="/Home/Index/#about">about</a>
-                            <a href="/Home/Index/#reviews">reviews</a>
-                            <a href="/Home/Index/#contact">contact</a>
-                        </div>
-
-                        <div>
-
-                            <div class="d-flex">
-
-                                <i id="search-btn" class="fas fa-search icons me-5 m"></i>
-                                <a asp-controller="Orders" asp-action="Cart"><i class="fas fa-shopping-cart icons" style="color:white"></i></a>
-                                <span class="space"></span>
-                                @ViewData["CartItemsCount"]
-                                @if (SignInManager.IsSignedIn(User))
-                                {
-                                    <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">User</a>
-
-                                    <form class="d-block" asp-area="Identity" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-
-                                        <div class="d-flex">
-
-
-                                            <button type="submit" class="btn text-white" style="font-size: 1.3rem; margin: 0; padding: 0;">Logout</button>
-
-                                            @if (User.IsInRole("Admin"))
-                                            {
-                                                <a class="" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Yönetim</a>
-                                            }
-                                        </div>
-                                    </form>
-                                }
-                                else
-                                {
-                                    <a class="" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                                }
-                                @if (!SignInManager.IsSignedIn(User))
-                                {
-                                    <a class="" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                                }
-
-                            </div>
-
-
-
-                        </div>
-
-
-
-
-
-
-                </nav>
-
-
-
-
-
+        <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="~/Home/Index/#home"><img src="~/images/logo.png" /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mynavbar">
+                    <ul class="navbar-nav me-auto gap-5">
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Index/#home" style="color:white; font-size:larger" onclick="scrollToSection('home')">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Index/#menu" style="color:white; font-size:larger">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Index/#extra" style="color:white; font-size:larger" onclick="scrollToSection('extra')">Extras</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex gap-3 align-items-center">
+                        <a asp-area="" asp-controller="Orders" asp-action="Cart" class="text-white" style="color:white; font-size:larger"><i class="fas fa-shopping-cart icons"></i></a>
+                        @*@ViewData["CartItemsCount"]*@
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <a class="text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" style="color:white; font-size:larger">User</a>
+                            <form class="d-inline" asp-area="Identity" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="btn text-white" style="color:white; font-size:larger">Logout</button>
+                            </form>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="text-white" asp-area="Admin" asp-controller="Dashboard" asp-action="Index" style="color:white; font-size:larger">Yönetim</a>
+                            }
+                        }
+                        else
+                        {
+                            <a class="text-white" asp-area="Identity" asp-page="/Account/Register" style="color:white; font-size:larger">Register</a>
+                            <a class="text-white" asp-area="Identity" asp-page="/Account/Login" style="color:white; font-size:larger">Login</a>
+                        }
+                    </div>
+                </div>
             </div>
-        </div>
-        @* <div class="d-flex justify-contetn-end ">
-        @if (SignInManager.IsSignedIn(User))
-        {
-        <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name</a>
-
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-
-        <button type="submit" class="btn text-white">Logout</button>
-
-        @if (User.IsInRole("Admin"))
-        {
-        <a class=" px-lg-3 py-3 py-lg-4" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Yönetim</a>
-        }
-        </form>
-        }
-        else
-        {
-        <a class="" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        }
-        @if (!SignInManager.IsSignedIn(User))
-        {
-        <a class="" style="color:yellow; font-weight:bold; font-size:larger" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        }
-        </div>*@
-
-
-
-
-
-
-        <form class="" id="search-form">
-            <input type="text"
-                   name=""
-                   placeholder="search here..."
-                   id="search-box" />
-            <label for="search-box" class="fas fa-search icons"></label>
-        </form>
+        </nav>
     </header>
+
+
     <section>
         @RenderBody()
     </section>

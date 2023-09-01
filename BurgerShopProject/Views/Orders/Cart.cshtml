@@ -1,107 +1,54 @@
-﻿@model OrdersCartViewModel
+﻿@model BurgerShopProject.Entities.Order
 
 <div class="cart-section" style="margin-top:200px">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-12">
-                <div class="cart-table-wrap">
-                    <table class="table cart-table" style="color:white">
-                        <thead class="table-light">
-                            <tr class="table-head-row">
-                                <th class="product-remove"></th>
-                                <th class="product-image">Ürün Fotoğrafı</th>
-                                <th class="product-name">Ürün Adı</th>
-                                <th class="product-price">Fiyat</th>
-                                <th class="product-quantity">Miktar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+    <h1>Siparisiniz basariyla gerceklesmistir</h1>
 
-                            @if (Model != null)
-                            {
-                                @foreach (var item2 in Model.Menus)
-                                {
-                                    <tr class="table-body-row">
-                                        <td class="product-remove"><a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
-                                        <td class="product-image">
-                                            @if (item2.MenuName != null)
-                                            {
-                                                <img src="~/images/@item2.MenuImageName" alt="Alternate Text" width="126" height="60" />
-                                            }
-                                        </td>
-                                        <td class="product-name">@item2.MenuName</td>
-                                        <td class="product-price">@item2.MenuPrice TL</td>
-                                        <td class="product-quantity">@item2.Quantity</td>
-                                         
-                                        
+    <h2>Siparisinizin detaylari</h2>
+    <table class="table cart-table" style="color:white">
+        <thead class="table-light">
+            <tr class="table-head-row">
+                <th>
+                    <p>Sepetin icerigi</p>
+                </th>
+                <th>
+                    <p>Siparis Fiyati</p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Menus)
+            {
+                <tr class="table-body-row">
+                    <td>
+                        @item.MenuName
+                    </td>
+                    <td>
+                        @item.MenuPrice
+                    </td>
+                </tr>
+            }
+            @foreach (var item in Model.Extras)
+            {
+                <tr class="table-body-row">
+                    <td>
+                        @item.ExtraName
+                    </td>
+                    <td>
+                        @item.ExtraPrice
+                    </td>
+                </tr>
+            }
+            <tr class="total-data" style="color:white">
+                <td><strong>Sepet Toplam: </strong></td>
+                <td>
+                    @Model.OrderPrice TL
+                </td>
+            </tr>
+        </tbody>
 
-
-
-                                       @* <td class="product-quantity">  <select asp-for="@item2.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
-                                    </tr>
-                                }
-                            }
-
-                            @if (Model != null)
-                            {
-                                @foreach (var item2 in Model.Extras)
-                                {
-
-
-                                    <tr class="table-body-row">
-                                        <td class="product-remove"><a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
-                                        <td class="product-image">
-                                            @if (item2.ExtraName != null)
-                                            {
-                                                @*<a href="">
-                                                        @{
-                                                            var base64String = Convert.ToBase64String(item.MenuImageName);
-                                                            var imageUrl = $"data:image/png;base64,{base64String}";
-                                                        }
-                                                        <img src="@imageUrl" alt="Image" width="100" height="100" />
-                                                    </a>*@
-                                                <img src="~/images/@item2.ExtraImageName" alt="Alternate Text" width="126" height="60" />
-                                            }
-                                        </td>
-                                        <td class="product-name">@item2.ExtraName</td>
-                                        <td class="product-price">@item2.ExtraPrice TL</td>
-                                        <td class="product-quantity">@item2.Quantity</td>
-                                        <td class="product-quantity"></td>
-
-                                        @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
-                                    </tr>
-                                }
-                            }
-
-
-
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="total-section">
-                    <table class="table total-table">
-                        <thead class="table-light">
-                            <tr class="table-total-row">
-                                <th>Toplam </th>
-                                <th>Fiyat</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="total-data" style="color:white">
-                                <td><strong>Sepet Toplam: </strong></td>
-                                <td><!-- cartTotal --> TL</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="cart-buttons">
-                        <a asp-action="ConfirmCart" asp-controller="ShoppingCart" class="btn btn-dark">Siparişi Onayla</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </table>
 </div>
+<form method="post">
+    <div class="d-flex justify-content-center "><a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-success w-25 "> Ana menuye git</a></div>\
+</form>
+

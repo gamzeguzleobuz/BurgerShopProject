@@ -1,5 +1,5 @@
 ﻿@model OrdersCartViewModel
-
+@using BurgerShopProject.Entities
 
 <div class="cart-section" style="margin-top:200px">
     <div class="container">
@@ -27,7 +27,7 @@
 
 
                                     <tr class="table-body-row">
-                                        <td class="product-remove"><a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
+                                        <td class="product-remove"><a asp-action="RemoveFromCartMenu" asp-controller="Orders" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
                                         <td class="product-image">
                                             @if (item2.MenuName != null)
                                             {
@@ -48,29 +48,13 @@
                                                     totalMenu += decimal.Parse(x);
 
                                                     ViewBag.ToplamMenu = totalMenu;
-
-
-                                                    // ViewBag içinde değer bulunamadı veya null, hata yönetimi yapabilirsiniz.
                                                 }
-
-
-
-
-
-
-
-                                                //ViewBag.MenuTotalPrice = item2.Quantity * item2.MenuPrice;
-
-                                                //var valueInViewBag += ViewBag.MenuTotalPrice;
                                             }
 
                                         </td>
                                         <td class="product-name">@item2.MenuName</td>
                                         <td class="product-price">@ViewBag.MenuTotalPrice TL</td>
                                         <td class="product-quantity">@item2.Quantity</td>
-
-
-                                        @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
                                     </tr>
                                 }
                             }
@@ -82,7 +66,7 @@
                                 {
 
                                     <tr class="table-body-row">
-                                        <td class="product-remove"><a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
+                                        <td class="product-remove"><a asp-action="RemoveFromCartExtra" asp-controller="Orders" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
                                         <td class="product-image">
                                             @if (item2.ExtraName != null)
                                             {
@@ -99,25 +83,15 @@
                                                     decimal intValue;
                                                     if (decimal.TryParse(valueInViewBag3.ToString(), out intValue))
                                                     {
-                                                        // Başarılı bir şekilde çevrildi, intValue şimdi int türündedir.
-
-                                                        // intValue'ı başka bir değişkene atayabilirsiniz.
                                                         decimal yeniDeger = intValue;
                                                         totalExtra += decimal.Parse(Convert.ToString(valueInViewBag3));
                                                         ViewBag.ToplamExtra = totalExtra;
                                                     }
-                                                    else
-                                                    {
-
-                                                    }
-                                                }
-                                                else
-                                                {
 
                                                 }
 
 
-                                                //ViewBag.TotalExtra += ViewBag.ExtraTotalPrice;
+
 
                                             }
 
@@ -125,8 +99,6 @@
                                         <td class="product-name">@item2.ExtraName</td>
                                         <td class="product-price">@ViewBag.ExtraTotalPrice TL</td>
                                         <td class="product-quantity">@item2.Quantity</td>
-
-                                        @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
                                     </tr>
 
 
@@ -160,9 +132,6 @@
                                 string toplamMenu = Convert.ToString(valueInViewBag4);
                                 string toplamExtra = Convert.ToString(valueInViewBag5);
 
-                                //var valueInViewBag4 = ViewData["ToplamMenu"];
-                                //var valueInViewBag5 = ViewData["ToplamExtra"];
-
                                 if (valueInViewBag4 != null && valueInViewBag5 != null)
                                 {
 
@@ -173,32 +142,21 @@
                                     toplam = menuToplam + extraToplam;
                                     ViewBag.Toplam = toplam;
                                 }
-                                else if(valueInViewBag4 != null)
+                                else if (valueInViewBag4 != null)
                                 {
                                     menuToplam = decimal.Parse(toplamMenu);
                                     toplam = menuToplam;
                                     ViewBag.Toplam = toplam;
-                                    
+
                                 }
                                 else if (valueInViewBag4 != null)
                                 {
                                     extraToplam = decimal.Parse(toplamMenu);
                                     toplam = extraToplam;
                                     ViewBag.Toplam = toplam;
-                                    
+
                                 }
 
-
-
-                                //if ((Model.Menus.Count() != 0 && Model.Extras.Count() != 0) || (Model.Menus.Count() == 0 && Model.Extras.Count() != 0))
-                                //{
-                                //    decimal totalMenu = ViewBag.TotalMenu;
-                                //    decimal totalExtra = ViewBag.TotalExtra;
-
-
-                                //    ViewData["Total"] = totalMenu + totalExtra;
-
-                                //}
                             }
                             <tr class="total-data" style="color:white">
                                 <td><strong>Sepet Toplam: </strong></td>
@@ -207,12 +165,13 @@
                                 </td>
                             </tr>
                         </tbody>
-
-
                     </table>
-                    <div class="cart-buttons">
-                        <a asp-action="ConfirmCart" asp-controller="ShoppingCart" class="btn btn-dark">Siparişi Onayla</a>
-                    </div>
+                    <form method="post">
+                        <div class="cart-buttons">
+                            
+                            <a asp-action="Cart" asp-controller="Orders" class="btn btn-dark">Siparişi Onayla</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
