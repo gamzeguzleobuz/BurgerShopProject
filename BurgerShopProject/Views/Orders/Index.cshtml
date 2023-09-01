@@ -17,31 +17,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Menus)
+                            @if (Model != null)
                             {
-                                
-                                
+                                @foreach (var item in Model.Menus)
+                                {
+
+
                                     <tr class="table-body-row">
                                         <td class="product-remove"><a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item.Id"><i class="far fa-window-close"></i></a></td>
                                         <td class="product-image">
                                             @if (item.MenuName != null)
                                             {
-                                                @*<a href="">
-                                                        @{
-                                                            var base64String = Convert.ToBase64String(item.MenuImageName);
-                                                            var imageUrl = $"data:image/png;base64,{base64String}";
-                                                        }
-                                                        <img src="@imageUrl" alt="Image" width="100" height="100" />
-                                                    </a>*@
                                                 <img src="~/images/@item.MenuImageName" alt="Alternate Text" />
                                             }
                                         </td>
                                         <td class="product-name">@item.MenuName</td>
                                         <td class="product-price">@item.MenuPrice TL</td>
-                                        @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
                                     </tr>
-                                
+
+                                }
                             }
+                           
                         </tbody>
                     </table>
                 </div>

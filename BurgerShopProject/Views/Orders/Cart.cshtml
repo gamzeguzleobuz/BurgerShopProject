@@ -15,33 +15,73 @@
                 </th>
             </tr>
         </thead>
+
         <tbody>
-            @foreach (var item in Model.Menus)
+            @if (Model != null)
             {
-                <tr class="table-body-row">
-                    <td>
-                        @item.MenuName
-                    </td>
-                    <td>
-                        @item.MenuPrice
-                    </td>
-                </tr>
-            }
-            @foreach (var item in Model.Extras)
-            {
-                <tr class="table-body-row">
-                    <td>
-                        @item.ExtraName
-                    </td>
-                    <td>
-                        @item.ExtraPrice
-                    </td>
-                </tr>
+                decimal totalMenu = 0;
+                decimal totalExtra = 0;
+                @foreach (var item in Model.Menus)
+                {
+                    {
+                        ViewBag.MenuTotalPrice = item.Quantity * item.MenuPrice;
+                        var valueInViewBag = ViewBag.MenuTotalPrice;
+
+                        string x = Convert.ToString(valueInViewBag);
+
+                        if (valueInViewBag != null)
+                        {
+                            decimal intValue;
+                            intValue = decimal.Parse(x);
+                            totalMenu += decimal.Parse(x);
+
+                            ViewBag.ToplamMenu = totalMenu;
+                        }
+                    }
+                    <tr class="table-body-row">
+                        <td>
+                            @item.MenuName
+                        </td>
+                        <td>
+                            @ViewBag.MenuTotalPrice TL
+                        </td>
+                    </tr>
+                }
+                @foreach (var item in Model.Extras)
+                {
+                    {
+                        ViewBag.ExtraTotalPrice = item.Quantity * item.ExtraPrice;
+                        var valueInViewBag1 = ViewBag.ExtraTotalPrice;
+
+                        string x = Convert.ToString(valueInViewBag1);
+
+                        if (valueInViewBag1 != null)
+                        {
+                            decimal intValue;
+                            intValue = decimal.Parse(x);
+                            totalExtra += decimal.Parse(x);
+
+                            ViewBag.ExtraMenu = totalExtra;
+                        }
+                    }
+                    <tr class="table-body-row">
+                        <td>
+                            @item.ExtraName
+                        </td>
+                        <td>
+                            @ViewBag.ExtraTotalPrice TL
+                        </td>
+                    </tr>
+                }
             }
             <tr class="total-data" style="color:white">
                 <td><strong>Sepet Toplam: </strong></td>
                 <td>
-                    @Model.OrderPrice TL
+                    @if (Model != null)
+                    {
+                        @Model.OrderPrice
+                    }
+                    TL
                 </td>
             </tr>
         </tbody>

@@ -17,15 +17,11 @@
                             </tr>
                         </thead>
                         <tbody>
-
-                            @* TODO:bu sayfa icincrud islemleri yapilacak*@
                             @if (Model.Menus != null)
                             {
                                 decimal totalMenu = 0;
                                 @foreach (var item2 in Model.Menus)
                                 {
-
-
                                     <tr class="table-body-row">
                                         <td class="product-remove"><a asp-action="RemoveFromCartMenu" asp-controller="Orders" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
                                         <td class="product-image">
@@ -34,7 +30,6 @@
                                                 <img src="~/images/@item2.MenuImageName" alt="Alternate Text" width="126" height="60" />
                                             }
                                             @{
-
                                                 ViewBag.MenuTotalPrice = item2.Quantity * item2.MenuPrice;
                                                 var valueInViewBag = ViewBag.MenuTotalPrice;
 
@@ -50,7 +45,6 @@
                                                     ViewBag.ToplamMenu = totalMenu;
                                                 }
                                             }
-
                                         </td>
                                         <td class="product-name">@item2.MenuName</td>
                                         <td class="product-price">@ViewBag.MenuTotalPrice TL</td>
@@ -72,9 +66,7 @@
                                             {
                                                 <img src="~/images/@item2.ExtraImageName" alt="Alternate Text" width="126" height="60" />
                                             }
-
                                             @{
-
                                                 ViewBag.ExtraTotalPrice = item2.Quantity * item2.ExtraPrice;
                                                 var valueInViewBag3 = ViewBag.ExtraTotalPrice;
 
@@ -89,10 +81,6 @@
                                                     }
 
                                                 }
-
-
-
-
                                             }
 
                                         </td>
@@ -100,18 +88,12 @@
                                         <td class="product-price">@ViewBag.ExtraTotalPrice TL</td>
                                         <td class="product-quantity">@item2.Quantity</td>
                                     </tr>
-
-
                                 }
                             }
-
-
-
                         </tbody>
                     </table>
                 </div>
             </div>
-
             <div class="col-lg-4">
                 <div class="total-section">
                     <table class="table total-table">
@@ -123,7 +105,6 @@
                         </thead>
                         <tbody>
                             @{
-
                                 decimal menuToplam;
                                 decimal extraToplam;
                                 decimal toplam;
@@ -134,9 +115,6 @@
 
                                 if (valueInViewBag4 != null && valueInViewBag5 != null)
                                 {
-
-
-
                                     menuToplam = decimal.Parse(toplamMenu);
                                     extraToplam = decimal.Parse(toplamExtra);
                                     toplam = menuToplam + extraToplam;
@@ -149,14 +127,12 @@
                                     ViewBag.Toplam = toplam;
 
                                 }
-                                else if (valueInViewBag4 != null)
+                                else if (valueInViewBag5 != null)
                                 {
-                                    extraToplam = decimal.Parse(toplamMenu);
+                                    extraToplam = decimal.Parse(toplamExtra);
                                     toplam = extraToplam;
                                     ViewBag.Toplam = toplam;
-
                                 }
-
                             }
                             <tr class="total-data" style="color:white">
                                 <td><strong>Sepet Toplam: </strong></td>
@@ -168,7 +144,6 @@
                     </table>
                     <form method="post">
                         <div class="cart-buttons">
-                            
                             <a asp-action="Cart" asp-controller="Orders" class="btn btn-dark">Siparişi Onayla</a>
                         </div>
                     </form>
