@@ -1,10 +1,10 @@
 ﻿@model BurgerShopProject.Entities.Order
 
-<div class="cart-section" style="margin-top:200px">
+<div class="cart-section" style="margin-top: 200px">
     <h1>Siparisiniz basariyla gerceklesmistir</h1>
 
     <h2>Siparisinizin detaylari</h2>
-    <table class="table cart-table" style="color:white">
+    <table class="table cart-table" style="color: white">
         <thead class="table-light">
             <tr class="table-head-row">
                 <th>
@@ -17,74 +17,56 @@
         </thead>
 
         <tbody>
-            @if (Model != null)
-            {
+            @{
                 decimal totalMenu = 0;
                 decimal totalExtra = 0;
+                string TL = "₺";
+           
+            }
+
+            @if (Model != null)
+            {
+
+
                 @foreach (var item in Model.Menus)
                 {
-                    {
-                        ViewBag.MenuTotalPrice = item.Quantity * item.MenuPrice;
-                        var valueInViewBag = ViewBag.MenuTotalPrice;
+                    var menuTotalPrice = item.Quantity * item.MenuPrice;
+                    totalMenu += menuTotalPrice;
 
-                        string x = Convert.ToString(valueInViewBag);
-
-                        if (valueInViewBag != null)
-                        {
-                            decimal intValue;
-                            intValue = decimal.Parse(x);
-                            totalMenu += decimal.Parse(x);
-
-                            ViewBag.ToplamMenu = totalMenu;
-                        }
-                    }
                     <tr class="table-body-row">
                         <td>
                             @item.MenuName
                         </td>
                         <td>
-                            @ViewBag.MenuTotalPrice TL
+                            @menuTotalPrice @TL
                         </td>
                     </tr>
                 }
+
                 @foreach (var item in Model.Extras)
                 {
-                    {
-                        ViewBag.ExtraTotalPrice = item.Quantity * item.ExtraPrice;
-                        var valueInViewBag1 = ViewBag.ExtraTotalPrice;
+                    var extraTotalPrice = item.Quantity * item.ExtraPrice;
+                    totalExtra += extraTotalPrice;
 
-                        string x = Convert.ToString(valueInViewBag1);
-
-                        if (valueInViewBag1 != null)
-                        {
-                            decimal intValue;
-                            intValue = decimal.Parse(x);
-                            totalExtra += decimal.Parse(x);
-
-                            ViewBag.ExtraMenu = totalExtra;
-                        }
-                    }
                     <tr class="table-body-row">
                         <td>
                             @item.ExtraName
                         </td>
                         <td>
-                            @ViewBag.ExtraTotalPrice TL
+                            @extraTotalPrice @TL
                         </td>
                     </tr>
                 }
             }
-            @{
-              
-            }
-            <tr class="total-data" style="color:white">
+
+            <tr class="total-data" style="color: white">
                 <td><strong>Sepet Toplam: </strong></td>
                 <td>
                     @if (Model != null)
                     {
-                        @Model.OrderPrice
+                        @(totalMenu + totalExtra)
+                        @TL
                     }
-                    TL
                 </td>
             </tr>
         </tbody>
@@ -94,4 +76,3 @@
 <form method="post">
     <div class="d-flex justify-content-center "><a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-success w-25 "> Ana menuye git</a></div>\
 </form>
-
