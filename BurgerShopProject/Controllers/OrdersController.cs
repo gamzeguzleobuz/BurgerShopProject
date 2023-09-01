@@ -116,13 +116,31 @@ namespace BurgerShopProject
                         Extras = extras
                     };
                 }
+
+                var menu2 = ordersCartViewModelFromSession.Menus.Find(x => x.Id == menu.Id);
+                if (ordersCartViewModelFromSession.Menus.Contains(menu))
+                {
+                    
+                    menu.Quantity++;
+                    ordersCartViewModelFromSession.Menus.Add(menu);
+
+                }
                 else
                 {
                     ordersCartViewModelFromSession.Menus.AddRange(menus);
-                    ordersCartViewModelFromSession.Extras.AddRange(extras);
                 }
 
+                //ordersCartViewModelFromSession.Menus.AddRange(menus);
+                //ordersCartViewModelFromSession.Extras.AddRange(extras);
+
+
+
+
+
                 HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);
+
+
+
                 ViewData["CartItemsCount"] = ordersCartViewModelFromSession.Menus.Count() + ordersCartViewModelFromSession.Extras.Count();
 
                 //return RedirectToAction("Index", "Home", ordersCartViewModelFromSession);
@@ -212,8 +230,17 @@ namespace BurgerShopProject
                 }
                 else
                 {
-                    ordersCartViewModelFromSession.Menus.AddRange(menus);
-                    ordersCartViewModelFromSession.Extras.AddRange(extras);
+                    if (ordersCartViewModelFromSession.Extras.Contains(extra))
+                    {
+                        extra.Quantity++;
+                    }
+                    else
+                    {
+                        ordersCartViewModelFromSession.Extras.Add(extra);
+                    }
+                    //ordersCartViewModelFromSession.Menus.AddRange(menus);
+                    //ordersCartViewModelFromSession.Extras.AddRange(extras);
+
                 }
 
                 HttpContext.Session.Set("cartItems", ordersCartViewModelFromSession);

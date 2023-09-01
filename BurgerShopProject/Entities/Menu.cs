@@ -20,6 +20,9 @@ namespace BurgerShopProject.Entities
         [Required(ErrorMessage = "Please upload an image file for the product.")]
         public string MenuImageName { get; set; } = null!;
 
+        public int Quantity { get; set; }
+
+
         public List<Order> Orders { get; set; } = new();
 
 

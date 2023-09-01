@@ -30,18 +30,12 @@
                                         <td class="product-image">
                                             @if (item2.MenuName != null)
                                             {
-                                                @*<a href="">
-                                @{
-                                    var base64String = Convert.ToBase64String(item.MenuImageName);
-                                    var imageUrl = $"data:image/png;base64,{base64String}";
-                                }
-                                <img src="@imageUrl" alt="Image" width="100" height="100" />
-                            </a>*@
                                                 <img src="~/images/@item2.MenuImageName" alt="Alternate Text" width="126" height="60" />
                                             }
                                         </td>
                                         <td class="product-name">@item2.MenuName</td>
                                         <td class="product-price">@item2.MenuPrice TL</td>
+                                        <td class="product-quantity">@item2.Quantity</td>
 
                                         @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
                                     </tr>
@@ -58,18 +52,13 @@
                                     <td class="product-image">
                                         @if (item2.ExtraName != null)
                                         {
-                                            @*<a href="">
-                            @{
-                                var base64String = Convert.ToBase64String(item.MenuImageName);
-                                var imageUrl = $"data:image/png;base64,{base64String}";
-                            }
-                            <img src="@imageUrl" alt="Image" width="100" height="100" />
-                        </a>*@
                                             <img src="~/images/@item2.ExtraImageName" alt="Alternate Text" width="126" height="60" />
                                         }
                                     </td>
                                     <td class="product-name">@item2.ExtraName</td>
                                     <td class="product-price">@item2.ExtraPrice TL</td>
+                                    <td class="product-quantity">@item2.Quantity</td>
+
                                     @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
                                 </tr>
                             }

@@ -1,6 +1,5 @@
 ﻿@model OrdersCartViewModel
 
-
 <div class="cart-section" style="margin-top:200px">
     <div class="container">
         <div class="row">
@@ -18,32 +17,27 @@
                         </thead>
                         <tbody>
 
-                            @* TODO:bu sayfa icincrud islemleri yapilacak*@
                             @if (Model != null)
                             {
                                 @foreach (var item2 in Model.Menus)
                                 {
-
-
                                     <tr class="table-body-row">
                                         <td class="product-remove"><a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
                                         <td class="product-image">
                                             @if (item2.MenuName != null)
                                             {
-                                                @*<a href="">
-                                                        @{
-                                                            var base64String = Convert.ToBase64String(item.MenuImageName);
-                                                            var imageUrl = $"data:image/png;base64,{base64String}";
-                                                        }
-                                                        <img src="@imageUrl" alt="Image" width="100" height="100" />
-                                                    </a>*@
                                                 <img src="~/images/@item2.MenuImageName" alt="Alternate Text" width="126" height="60" />
                                             }
                                         </td>
                                         <td class="product-name">@item2.MenuName</td>
                                         <td class="product-price">@item2.MenuPrice TL</td>
+                                        <td class="product-quantity">@item2.Quantity</td>
+                                         
+                                        
 
-                                        @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
+
+
+                                       @* <td class="product-quantity">  <select asp-for="@item2.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
                                     </tr>
                                 }
                             }
@@ -71,6 +65,9 @@
                                         </td>
                                         <td class="product-name">@item2.ExtraName</td>
                                         <td class="product-price">@item2.ExtraPrice TL</td>
+                                        <td class="product-quantity">@item2.Quantity</td>
+                                        <td class="product-quantity"></td>
+
                                         @*<td class="product-quantity">  <select asp-for="@item.MenuSize" asp-items="Html.GetEnumSelectList<BurgerShopProject.Entities.Size>()"></select></td>*@
                                     </tr>
                                 }
