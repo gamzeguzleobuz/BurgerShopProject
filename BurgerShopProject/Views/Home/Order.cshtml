@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BurgerShopProject.Entities.Menu>
+
+@{
+    ViewData["Title"] = "Order";
+}
+
+<h1>Order</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Menu Name
+                </th>
+                <th>
+                    Menu Price
+                </th>
+                <th>
+                    Menu Size
+                </th>
+                <th>
+                    Menu Image
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MenuName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MenuPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MenuSize)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MenuImageName)
+                    </td>
+                    <td>
+                        <form method="post" asp-controller="Home" asp-action="Order">
+                            <input type="hidden" asp-for="@item.MenuPrice" name="Id" value="@item.MenuPrice" />
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

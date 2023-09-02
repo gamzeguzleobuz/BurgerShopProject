@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BurgerShopProject.Entities;
+using System.ComponentModel.DataAnnotations;
+using BurgerShopProject.Areas.Admin.Models;
+using System.Drawing;
 
 namespace BurgerShopProject.Areas.Admin.Controllers
 {
@@ -22,9 +25,9 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         // GET: Admin/Menu
         public async Task<IActionResult> Index()
         {
-              return _context.Menus != null ? 
-                          View(await _context.Menus.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Menus'  is null.");
+            return _context.Menus != null ?
+                        View(await _context.Menus.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Menus'  is null.");
         }
 
         // GET: Admin/Menu/Details/5
@@ -46,6 +49,7 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         }
 
         // GET: Admin/Menu/Create
+
         public IActionResult Create()
         {
             return View();
@@ -56,15 +60,32 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MenuName,MenuPrice,MenuSize,MenuImageName")] Menu menu)
+        public async Task<IActionResult> Create([Bind("Id,MenuName,MenuPrice,MenuSize,MenuImageName")] MenuViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(menu);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var size = vm.MenuSize;
+                var menu = new Menu();
+                menu.MenuName = vm.MenuName;
+                menu.MenuPrice = vm.MenuPrice;
+                menu.MenuSize = vm.MenuSize; // Enum değeri atama
+
+                if (vm.MenuImageName != null)
+                {
+                    var fileName = vm.MenuImageName.FileName;
+                    menu.MenuImageName = fileName;
+                    string fmName = Guid.NewGuid().ToString() + fileName;
+                    var route = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                    var flowArea = new FileStream(route, FileMode.Create);
+                    vm.MenuImageName.CopyTo(flowArea);
+                    flowArea.Close();
+                }
+                _context.Menus.Add(menu);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return View(menu);
+
+            return View();
         }
 
         // GET: Admin/Menu/Edit/5
@@ -123,11 +144,12 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         {
             if (id == null || _context.Menus == null)
             {
-                return NotFound();
+                return View();
             }
 
             var menu = await _context.Menus
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (menu == null)
             {
                 return NotFound();
@@ -150,14 +172,14 @@ namespace BurgerShopProject.Areas.Admin.Controllers
             {
                 _context.Menus.Remove(menu);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MenuExists(int id)
         {
-          return (_context.Menus?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Menus?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

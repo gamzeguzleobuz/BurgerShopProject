@@ -1,0 +1,154 @@
+﻿@model OrdersCartViewModel
+@using BurgerShopProject.Entities
+
+<div class="cart-section" style="margin-top:200px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="cart-table-wrap">
+                    <table class="table cart-table" style="color:white">
+                        <thead class="table-light">
+                            <tr class="table-head-row">
+                                <th class="product-remove"></th>
+                                <th class="product-image">Ürün Fotoğrafı</th>
+                                <th class="product-name">Ürün Adı</th>
+                                <th class="product-price">Fiyat</th>
+                                <th class="product-quantity">Miktar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Menus != null)
+                            {
+                                decimal totalMenu = 0;
+                                @foreach (var item2 in Model.Menus)
+                                {
+                                    <tr class="table-body-row">
+                                        <td class="product-remove"><a asp-action="RemoveFromCartMenu" asp-controller="Orders" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
+                                        <td class="product-image">
+                                            @if (item2.MenuName != null)
+                                            {
+                                                <img src="~/images/@item2.MenuImageName" alt="Alternate Text" width="126" height="60" />
+                                            }
+                                            @{
+                                                ViewBag.MenuTotalPrice = item2.Quantity * item2.MenuPrice;
+                                                var valueInViewBag = ViewBag.MenuTotalPrice;
+
+                                                string x = Convert.ToString(valueInViewBag);
+
+                                                if (valueInViewBag != null)
+                                                {
+                                                    decimal intValue;
+
+                                                    intValue = decimal.Parse(x);
+                                                    totalMenu += decimal.Parse(x);
+
+                                                    ViewBag.ToplamMenu = totalMenu;
+                                                }
+                                            }
+                                        </td>
+                                        <td class="product-name">@item2.MenuName</td>
+                                        <td class="product-price">@ViewBag.MenuTotalPrice TL</td>
+                                        <td class="product-quantity">@item2.Quantity</td>
+                                    </tr>
+                                }
+                            }
+
+                            @if (Model.Extras != null)
+                            {
+                                decimal totalExtra = 0;
+                                @foreach (var item2 in Model.Extras)
+                                {
+
+                                    <tr class="table-body-row">
+                                        <td class="product-remove"><a asp-action="RemoveFromCartExtra" asp-controller="Orders" asp-route-id="@item2.Id"><i class="far fa-window-close"></i></a></td>
+                                        <td class="product-image">
+                                            @if (item2.ExtraName != null)
+                                            {
+                                                <img src="~/images/@item2.ExtraImageName" alt="Alternate Text" width="126" height="60" />
+                                            }
+                                            @{
+                                                ViewBag.ExtraTotalPrice = item2.Quantity * item2.ExtraPrice;
+                                                var valueInViewBag3 = ViewBag.ExtraTotalPrice;
+
+                                                if (valueInViewBag3 != null)
+                                                {
+                                                    decimal intValue;
+                                                    if (decimal.TryParse(valueInViewBag3.ToString(), out intValue))
+                                                    {
+                                                        decimal yeniDeger = intValue;
+                                                        totalExtra += decimal.Parse(Convert.ToString(valueInViewBag3));
+                                                        ViewBag.ToplamExtra = totalExtra;
+                                                    }
+
+                                                }
+                                            }
+
+                                        </td>
+                                        <td class="product-name">@item2.ExtraName</td>
+                                        <td class="product-price">@ViewBag.ExtraTotalPrice TL</td>
+                                        <td class="product-quantity">@item2.Quantity</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="total-section">
+                    <table class="table total-table">
+                        <thead class="table-light">
+                            <tr class="table-total-row">
+                                <th>Toplam </th>
+                                <th>Fiyat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                decimal menuToplam;
+                                decimal extraToplam;
+                                decimal toplam;
+                                var valueInViewBag4 = ViewBag.ToplamMenu;
+                                var valueInViewBag5 = ViewBag.ToplamExtra;
+                                string toplamMenu = Convert.ToString(valueInViewBag4);
+                                string toplamExtra = Convert.ToString(valueInViewBag5);
+
+                                if (valueInViewBag4 != null && valueInViewBag5 != null)
+                                {
+                                    menuToplam = decimal.Parse(toplamMenu);
+                                    extraToplam = decimal.Parse(toplamExtra);
+                                    toplam = menuToplam + extraToplam;
+                                    ViewBag.Toplam = toplam;
+                                }
+                                else if (valueInViewBag4 != null)
+                                {
+                                    menuToplam = decimal.Parse(toplamMenu);
+                                    toplam = menuToplam;
+                                    ViewBag.Toplam = toplam;
+
+                                }
+                                else if (valueInViewBag5 != null)
+                                {
+                                    extraToplam = decimal.Parse(toplamExtra);
+                                    toplam = extraToplam;
+                                    ViewBag.Toplam = toplam;
+                                }
+                            }
+                            <tr class="total-data" style="color:white">
+                                <td><strong>Sepet Toplam: </strong></td>
+                                <td>
+                                    @Convert.ToString(ViewBag.Toplam) TL
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form method="post">
+                        <div class="cart-buttons">
+                            <a asp-action="Cart" asp-controller="Orders" class="btn btn-dark">Siparişi Onayla</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

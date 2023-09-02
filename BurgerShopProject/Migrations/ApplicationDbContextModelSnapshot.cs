@@ -42,11 +42,9 @@ namespace BurgerShopProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -95,13 +93,17 @@ namespace BurgerShopProject.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("BurgerShopProject.Entities.Extras", b =>
+            modelBuilder.Entity("BurgerShopProject.Entities.Extra", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ExtraImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ExtraName")
                         .IsRequired()
@@ -110,9 +112,70 @@ namespace BurgerShopProject.Migrations
                     b.Property<decimal>("ExtraPrice")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Extras");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ExtraImageName = "extra-1.png",
+                            ExtraName = "Fries",
+                            ExtraPrice = 5m,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ExtraImageName = "extra-3.png",
+                            ExtraName = "Onion Ring",
+                            ExtraPrice = 10m,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ExtraImageName = "extra-5.png",
+                            ExtraName = "Cola",
+                            ExtraPrice = 15m,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ExtraImageName = "extra-7.png",
+                            ExtraName = "Ice-Tea",
+                            ExtraPrice = 5m,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ExtraImageName = "extra-2.png",
+                            ExtraName = "Curly Fries",
+                            ExtraPrice = 15m,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ExtraImageName = "extra-9.png",
+                            ExtraName = "Honey Mustard",
+                            ExtraPrice = 15m,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ExtraImageName = "extra-6.png",
+                            ExtraName = "Cola-Zero",
+                            ExtraPrice = 15m,
+                            Quantity = 1
+                        });
                 });
 
             modelBuilder.Entity("BurgerShopProject.Entities.Menu", b =>
@@ -124,22 +187,99 @@ namespace BurgerShopProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("MenuImageName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MenuName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MenuPrice")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("MenuPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("MenuSize")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Menus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MenuImageName = "bigKing.png",
+                            MenuName = "Big King",
+                            MenuPrice = 22m,
+                            MenuSize = 0,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            MenuImageName = "bigChicken.png",
+                            MenuName = "Big Turkey",
+                            MenuPrice = 12m,
+                            MenuSize = 0,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            MenuImageName = "burger (1).png",
+                            MenuName = "Double Whopper",
+                            MenuPrice = 34m,
+                            MenuSize = 0,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            MenuImageName = "burger (2).png",
+                            MenuName = "King Chicken",
+                            MenuPrice = 14m,
+                            MenuSize = 0,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            MenuImageName = "product-1.png",
+                            MenuName = "Double Kofte Burger",
+                            MenuPrice = 42m,
+                            MenuSize = 0,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            MenuImageName = "product-2.png",
+                            MenuName = "Bacon Burger",
+                            MenuPrice = 20m,
+                            MenuSize = 0,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            MenuImageName = "product-4.png",
+                            MenuName = "Double King Vegan",
+                            MenuPrice = 10m,
+                            MenuSize = 0,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            MenuImageName = "product-5.png",
+                            MenuName = "Eggcellent Burger",
+                            MenuPrice = 18m,
+                            MenuSize = 0,
+                            Quantity = 1
+                        });
                 });
 
             modelBuilder.Entity("BurgerShopProject.Entities.Order", b =>
@@ -166,7 +306,7 @@ namespace BurgerShopProject.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("ExtrasOrder", b =>
+            modelBuilder.Entity("ExtraOrder", b =>
                 {
                     b.Property<int>("ExtrasId")
                         .HasColumnType("int");
@@ -178,7 +318,7 @@ namespace BurgerShopProject.Migrations
 
                     b.HasIndex("OrdersId");
 
-                    b.ToTable("ExtrasOrder");
+                    b.ToTable("ExtraOrder");
                 });
 
             modelBuilder.Entity("MenuOrder", b =>
@@ -342,9 +482,9 @@ namespace BurgerShopProject.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("ExtrasOrder", b =>
+            modelBuilder.Entity("ExtraOrder", b =>
                 {
-                    b.HasOne("BurgerShopProject.Entities.Extras", null)
+                    b.HasOne("BurgerShopProject.Entities.Extra", null)
                         .WithMany()
                         .HasForeignKey("ExtrasId")
                         .OnDelete(DeleteBehavior.Cascade)

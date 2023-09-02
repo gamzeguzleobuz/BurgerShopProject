@@ -1,0 +1,78 @@
+﻿@model BurgerShopProject.Entities.Order
+
+<div class="cart-section" style="margin-top: 200px">
+    <h1>Siparisiniz basariyla gerceklesmistir</h1>
+
+    <h2>Siparisinizin detaylari</h2>
+    <table class="table cart-table" style="color: white">
+        <thead class="table-light">
+            <tr class="table-head-row">
+                <th>
+                    <p>Sepetin icerigi</p>
+                </th>
+                <th>
+                    <p>Siparis Fiyati</p>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                decimal totalMenu = 0;
+                decimal totalExtra = 0;
+                string TL = "₺";
+           
+            }
+
+            @if (Model != null)
+            {
+
+
+                @foreach (var item in Model.Menus)
+                {
+                    var menuTotalPrice = item.Quantity * item.MenuPrice;
+                    totalMenu += menuTotalPrice;
+
+                    <tr class="table-body-row">
+                        <td>
+                            @item.MenuName
+                        </td>
+                        <td>
+                            @menuTotalPrice @TL
+                        </td>
+                    </tr>
+                }
+
+                @foreach (var item in Model.Extras)
+                {
+                    var extraTotalPrice = item.Quantity * item.ExtraPrice;
+                    totalExtra += extraTotalPrice;
+
+                    <tr class="table-body-row">
+                        <td>
+                            @item.ExtraName
+                        </td>
+                        <td>
+                            @extraTotalPrice @TL
+                        </td>
+                    </tr>
+                }
+            }
+
+            <tr class="total-data" style="color: white">
+                <td><strong>Sepet Toplam: </strong></td>
+                <td>
+                    @if (Model != null)
+                    {
+                        @(totalMenu + totalExtra)
+                        @TL
+                    }
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+<form method="post">
+    <div class="d-flex justify-content-center "><a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-success w-25 "> Ana menuye git</a></div>\
+</form>

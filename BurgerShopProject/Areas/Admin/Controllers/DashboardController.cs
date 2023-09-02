@@ -24,9 +24,9 @@ namespace BurgerShopProject.Areas.Admin.Controllers
         // GET: Admin/Dashboard
         public async Task<IActionResult> Index()
         {
-              return _context.Orders != null ? 
-                          View(await _context.Orders.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Orders'  is null.");
+            return _context.Orders != null ?
+            View(await _context.Orders.ToListAsync()) :
+            Problem("Entity set 'ApplicationDbContext.Orders'  is null.");
         }
 
         // GET: Admin/Dashboard/Details/5
@@ -152,14 +152,14 @@ namespace BurgerShopProject.Areas.Admin.Controllers
             {
                 _context.Orders.Remove(order);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderExists(int id)
         {
-          return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

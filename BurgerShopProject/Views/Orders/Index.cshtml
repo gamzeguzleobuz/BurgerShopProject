@@ -1,0 +1,69 @@
+﻿@model OrdersCartViewModel
+
+
+<div class="cart-section" style="margin-top:200px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="cart-table-wrap">
+                    <table class="table cart-table" style="color:white">
+                        <thead class="table-light">
+                            <tr class="table-head-row">
+                                <th class="product-remove"></th>
+                                <th class="product-image">Ürün Fotoğrafı</th>
+                                <th class="product-name">Ürün Adı</th>
+                                <th class="product-price">Fiyat</th>
+                                <th class="product-quantity">Miktar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var item in Model.Menus)
+                                {
+
+
+                                    <tr class="table-body-row">
+                                        <td class="product-remove"><a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item.Id"><i class="far fa-window-close"></i></a></td>
+                                        <td class="product-image">
+                                            @if (item.MenuName != null)
+                                            {
+                                                <img src="~/images/@item.MenuImageName" alt="Alternate Text" />
+                                            }
+                                        </td>
+                                        <td class="product-name">@item.MenuName</td>
+                                        <td class="product-price">@item.MenuPrice TL</td>
+                                    </tr>
+
+                                }
+                            }
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="total-section">
+                    <table class="table total-table">
+                        <thead class="table-light">
+                            <tr class="table-total-row">
+                                <th>Toplam </th>
+                                <th>Fiyat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="total-data" style="color:white">
+                                <td><strong>Sepet Toplam: </strong></td>
+                                <td><!-- cartTotal --> TL</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="cart-buttons">
+                        <a asp-action="ConfirmCart" asp-controller="ShoppingCart" class="btn btn-dark">Siparişi Onayla</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
