@@ -27,7 +27,7 @@ namespace BurgerShopProject
             _userManager = userManager;
             _signInManager = signInManager;
         }
-
+        // deneme new pc
         public IActionResult Cart()
         {
 
