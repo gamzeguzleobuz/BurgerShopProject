@@ -47,6 +47,16 @@ namespace BurgerShopProject
                     OrderPiece = 1,
                     OrderPrice = ordersCartViewModelFromSession.Menus.Sum(x => x.MenuPrice) + ordersCartViewModelFromSession.Extras.Sum(x => x.ExtraPrice)
                 };
+
+                foreach (var item in ordersCartViewModelFromSession.Extras)
+                {
+                    item.Quantity = 1;
+                }
+                foreach (var item in ordersCartViewModelFromSession.Menus)
+                {
+                    item.Quantity = 1;
+                }
+
                 customer.Orders.Add(order);
                 _context.SaveChanges();
                 HttpContext.Session.Remove("cartItems");
